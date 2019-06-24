@@ -16,26 +16,56 @@ async def random_name():
 
 # usage:
 # ctx is known
-# text is the text to be displayed on the image
+# text is an array of text elements ["text1", "text2"]
 # path is path of image to load without /images
-# name is name of image to be sent to discord
-# location is a tuple, x then y
+# location is an array of tuples for each text [(10, 10), (10, 100)]
 # font is the font size, in pixels
 # colour is a tuple of the rgb
-# e.g image.send_image(ctx, "cool text", "image.jpg", "image.jpg", (20, 20), 60, (255, 255, 255))
-async def send_image(ctx, text, path, name, loc, font, colour):
+async def send_image(ctx, text, path, loc, size, colour):
     image = Image.open("./images/" + path)
-
-    # temp font
-    font = ImageFont.truetype("./res/Roboto-Black.ttf", font)
+    font = ImageFont.truetype("./res/Roboto-Black.ttf", size)
     d = ImageDraw.Draw(image)
-    location = (loc[0], loc[1])
-    d.text(location, text, font=font, fill=colour)
+
+    for i in text:
+        text.index(i)
+        location = loc[text.index(i)]
+        d.text(location, i, font=font, fill=colour)
 
     pictureDir = "./images/temp" + await random_name() + ".jpg"
     image.save(pictureDir)
 
     with open(pictureDir, 'rb') as picture:
-        await ctx.send(file=discord.File(picture, name))
-        await ctx.message.delete()
+        message = await ctx.send(file=discord.File(picture, path))
     os.remove(pictureDir)
+    return message
+
+
+# usage:
+# same as above, text is an array of text
+# offset adds line spacing
+async def centre_image(ctx, text, path, size, colour, offset):
+    image = Image.open("./images/" + path)
+    width, height = image.size
+    font = ImageFont.truetype("./res/Roboto-Black.ttf", size)
+    d = ImageDraw.Draw(image)
+
+    totalHeight = 0
+    for i in text:
+        textWidth, textHeight = d.textsize(i)
+        totalHeight += textHeight + offset + size
+
+    previousText = 0
+    for i in text:
+        textWidth, textHeight = d.textsize(i, font=font)
+        x = (width-textWidth)/2
+        y = (height - totalHeight)/2 + previousText
+        d.text((x, y), i, font=font, fill=colour)
+        previousText += textHeight + offset
+
+    pictureDir = "./images/temp" + await random_name() + ".jpg"
+    image.save(pictureDir)
+
+    with open(pictureDir, 'rb') as picture:
+        message = await ctx.send(file=discord.File(picture, path))
+    os.remove(pictureDir)
+    return message
