@@ -1,5 +1,5 @@
-/data.json
-/config.json
+*.json
 .idea/
 /__pycache__
 /images/temp/*
+__pycache__/
