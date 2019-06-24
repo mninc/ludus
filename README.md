@@ -1,5 +1,4 @@
 # Ludus
----
 ![alt text](images/logo.jpg "Logo")
 ---
 Our entry into Discord Hack-Week 2019.<br>
