@@ -2,3 +2,4 @@
 .idea/
 /images/temp/*
 __pycache__/
+config_reddit.json
