@@ -8,7 +8,7 @@ with open("config.json") as f:
 with open("data.json") as f:
     data = json.load(f)
 
-bot = commands.Bot(command_prefix='>')
+bot = commands.Bot(command_prefix=config["prefix"])
 
 modules = os.listdir()
 for module in modules:
