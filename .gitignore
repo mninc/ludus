@@ -1,4 +1,4 @@
-/data.json
-/config.json
+*.json
 .idea/
 /images/temp/*
+__pycache__/
