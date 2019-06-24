@@ -3,3 +3,4 @@
 /__pycache__
 /images/temp/*
 __pycache__/
+config_reddit.json
