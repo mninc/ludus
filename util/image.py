@@ -21,7 +21,8 @@ async def random_name():
 # location is an array of tuples for each text [(10, 10), (10, 100)]
 # font is the font size, in pixels
 # colour is a tuple of the rgb
-async def send_image(ctx, text, path, loc, size, colour):
+# user is if the message is being sent in the current channel or to the author
+async def send_image(ctx, text, path, loc, size, colour, user=False):
     image = Image.open("./images/" + path)
     font = ImageFont.truetype("./res/Roboto-Black.ttf", size)
     d = ImageDraw.Draw(image)
@@ -35,7 +36,10 @@ async def send_image(ctx, text, path, loc, size, colour):
     image.save(pictureDir)
 
     with open(pictureDir, 'rb') as picture:
-        message = await ctx.send(file=discord.File(picture, path))
+        if user:
+            message = await ctx.author.send(file=discord.File(picture, path))
+        else:
+            message = await ctx.send(file=discord.File(picture, path))
     os.remove(pictureDir)
     return message
 
