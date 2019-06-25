@@ -2,7 +2,7 @@ import asyncio
 
 
 # dm for if the message being awaited is DM or not
-def get_reply(ctx, timeout):
+async def get_reply(ctx, timeout):
     def check(m):
         return m.author == ctx.author and m.channel == ctx.channel
 
