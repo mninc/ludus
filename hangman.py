@@ -49,25 +49,28 @@ def init(bot, data):
         if user:
             await ctx.send("waiting for response from user")
             await user.send("what word?")
-            word = "response"
+            reply = await get_reply(ctx, 60, user=user)
+            if not reply:
+                await ctx.send("waited too long for response")
+                await user.send("timed out")
+                return
+            word = reply.content
         else:
             word = choice(words)
         print(word)
         word_displayed = "-" * len(word)
         letters = ascii_lowercase
         
-        def check(m):
-            return m.author == ctx.author and m.channel == ctx.channel
-        
         while word_displayed != word:
-            print(letters + word_displayed)
-            await generate_image(ctx, letters + word_displayed)
-            msg = await bot.wait_for('message', check=check)
+            old_message = await generate_image(ctx, letters + word_displayed)
+            msg = await get_reply(ctx, 30)
             content = msg.content
             if len(msg.content) != 1:
                 await ctx.send("one character pls")
                 continue
             word_displayed = update_blank(word, word_displayed, content)
+            await old_message.delete()
+            await msg.delete()
         await ctx.send("You guessed it! word was " + word)
 
 
