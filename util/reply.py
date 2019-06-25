@@ -1,10 +1,14 @@
 import asyncio
+import discord
 
 
-# dm for if the message being awaited is DM or not
-async def get_reply(ctx, timeout):
+# if user is set, waits for dm from that user instead
+async def get_reply(ctx, timeout, user=None):
     def check(m):
-        return m.author == ctx.author and m.channel == ctx.channel
+        if user:
+            return m.channel.type == discord.ChannelType.private and m.author == user
+        else:
+            return m.author == ctx.author and m.channel == ctx.channel
 
     try:
         msg = await ctx.bot.wait_for("message", check=check, timeout=timeout)
