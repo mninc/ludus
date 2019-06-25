@@ -20,6 +20,8 @@ def init(bot, data):
                 if thread.over_18:
                     continue
                 title = thread.title
+                if not all(ord(character) < 256 for character in title):  # non-ascii, font will not accept
+                    continue
                 title = title.lower().replace("would you rather ", "").replace("wyr ", "").replace("?", "")
                 if title.endswith("."):
                     title = title[:-1]
@@ -37,9 +39,9 @@ def init(bot, data):
         
         first = title[0]
         second = title[1]
-        text = wrap(first, 40) + ["or"] + wrap(second, 40)
+        text = ["Would you rather:"] + wrap(first, 20) + ["OR"] + wrap(second, 20)
         
-        message = await image.centre_image(ctx, text, "white.jpg", 40, (0, 0, 0), 0)
+        message = await image.centre_image(ctx, text, "scroll_large.png", 50, (0, 0, 0), 10)
         await message.add_reaction('1⃣')
         await message.add_reaction('2⃣')
         await asyncio.sleep(0.1)
@@ -48,13 +50,17 @@ def init(bot, data):
             return emote.emoji == '1⃣' or emote.emoji == '2⃣'
         
         start_time = time()
+        reacted_users = []
         while time() - start_time < 60:
             try:
-                reaction, _ = await bot.wait_for('reaction_add', timeout=5, check=check)
+                reaction, user = await bot.wait_for('reaction_add', timeout=5, check=check)
             except asyncio.TimeoutError:
                 pass
             else:
+                if user in reacted_users:
+                    continue
                 async with ctx.typing():
+                    reacted_users.append(user)
                     if reaction.emoji == '1⃣':
                         index = 0
                     else:
@@ -63,4 +69,5 @@ def init(bot, data):
                     our_data[single_title][index] += 1
                     total = our_data[single_title][0] + our_data[single_title][1]
                     percentage = round((our_data[single_title][index] / total) * 100, 2)
-                    await image.centre_image(ctx, [str(percentage) + "% agreed with you"], "white.jpg", 40, (0, 0, 0), 0)
+                    await image.centre_image(ctx, wrap(user.display_name + ", " + str(percentage) + "% agreed with you",
+                                                       20), "scroll.png", 40, (0, 0, 0), 0)
