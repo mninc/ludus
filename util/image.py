@@ -55,7 +55,7 @@ async def post_image(ctx, image, path, user=False):
 async def centre_image(ctx, text, path, size, colour, offset, send=True, user=False):
     image = Image.open("./images/" + path)
     width, height = image.size
-    font = ImageFont.truetype("./res/Roboto-Black.ttf", size)
+    font = ImageFont.truetype("./res/font.ttf", size)
     d = ImageDraw.Draw(image)
 
     totalHeight = 0
