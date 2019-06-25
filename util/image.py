@@ -37,7 +37,7 @@ async def send_image(ctx, text, path, loc, size, colour, user=False, send=True):
     
 
 async def post_image(ctx, image, path, user=False):
-    pictureDir = "./images/temp" + await random_name() + ".jpg"
+    pictureDir = "./images/temp" + await random_name() + ".png"
     image.save(pictureDir)
     
     with open(pictureDir, 'rb') as picture:
@@ -85,9 +85,10 @@ async def add_images(ctx, image, image_paths, locations, send=True, user=False):
     
     for i, path in enumerate(image_paths):
         location = locations[i]
-        image.paste(Image.open("./images/" + path), location)
+        img = Image.open("./images/" + path)
+        image.paste(img, location, img)
     
     if not send:
         return image
 
-    return await post_image(ctx, image, 'image.jpg', user=user)
+    return await post_image(ctx, image, 'image.png', user=user)
