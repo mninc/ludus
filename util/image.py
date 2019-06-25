@@ -26,10 +26,9 @@ async def send_image(ctx, text, path, loc, size, colour, user=False):
     font = ImageFont.truetype("./res/Roboto-Black.ttf", size)
     d = ImageDraw.Draw(image)
 
-    for i in text:
-        text.index(i)
-        location = loc[text.index(i)]
-        d.text(location, i, font=font, fill=colour)
+    for i, text in enumerate(text):
+        location = loc[i]
+        d.text(location, text, font=font, fill=colour)
 
     pictureDir = "./images/temp" + await random_name() + ".jpg"
     image.save(pictureDir)
