@@ -6,7 +6,7 @@ import discord
 async def get_reply(ctx, timeout, user=None):
     def check(m):
         if user:
-            return m.channel.type == discord.ChannelType.private and m.author == user
+            return isinstance(m.channel, discord.DMChannel) and m.author == user
         else:
             return m.author == ctx.author and m.channel == ctx.channel
 
