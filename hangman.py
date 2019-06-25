@@ -26,8 +26,6 @@ for i in range(0, 40):
     letter_position.append((x, y))
     x += 40
 
-print(letter_position)
-
 
 async def generate_image(ctx, letters):
     return await send_image(ctx, letters, "white.jpg", letter_position, 40, (0, 0, 0))
