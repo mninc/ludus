@@ -81,7 +81,7 @@ async def centre_image(ctx, text, path, size, colour, offset, send=True, user=Fa
 # await add_images(ctx, image, ['logo.jpg'], [(0, 0)])
 async def add_images(ctx, image, image_paths, locations, send=True, user=False):
     if type(image) is str:
-        image = Image.open(image)
+        image = Image.open("./images/" + image)
     
     for i, path in enumerate(image_paths):
         location = locations[i]
