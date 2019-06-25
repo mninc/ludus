@@ -73,7 +73,7 @@ async def check_board_diagonal(board):
                 if (board[x][y] == "yellow" or board[x][y] == "red") and board[x][y] == board[x + 1][y - 1] == \
                         board[x + 2][y - 2] == board[x + 3][y - 3]:
                     return True
-            if x - 3 >= 0 and y + 3 <= 6:
+            if x - 3 >= 0 and y + 3 <= 5:
                 if (board[x][y] == "yellow" or board[x][y] == "red") and board[x][y] == board[x - 1][y + 1] == \
                         board[x - 2][y + 2] == board[x - 3][y + 3]:
                     return True
