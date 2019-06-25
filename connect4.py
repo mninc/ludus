@@ -32,6 +32,7 @@ async def render_board(ctx, board):
     
     return await add_images(ctx, 'connect4_board.png', counters, our_positions)
 
+
 async def check_board_vertical(board):
     previous_identical = 0
     previous = "none"
@@ -102,7 +103,7 @@ def init(bot, data):
     @bot.command()
     async def connect4(ctx, user: discord.User = None):
         board = [["none" for _ in range(6)] for _ in range(7)]
-        if user:
+        if user and not user.bot:
             await ctx.send(user.mention + ": " + ctx.author.display_name + " has invited you to play connect four. Type 'play' to confirm")
             message = await get_reply(ctx, 30, channel_user=user)
             if not message or message.content.lower() != "play":
