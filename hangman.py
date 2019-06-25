@@ -1,6 +1,7 @@
 from random import choice
 from string import ascii_lowercase
 from util.image import send_image
+from util.reply import get_reply
 import discord
 
 with open("hangman_words.txt") as f:
@@ -34,15 +35,11 @@ async def generate_image(ctx, letters):
 
 def update_blank(word, current, character_guess):
     result = ""
-    
     for i in range(len(word)):
         if word[i] == character_guess:
-            result = result + character_guess  # Adds guess to string if guess is correctly
-        
+            result = result + character_guess
         else:
-            # Add the dash at index i to result if it doesn't match the guess
             result = result + current[i]
-    
     return result
 
 
