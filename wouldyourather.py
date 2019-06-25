@@ -4,6 +4,7 @@ import util.image as image
 from util.reddit import reddit
 from textwrap import wrap
 from time import time
+import util.number_emotes as numbers
 
 
 def init(bot, data):
@@ -42,12 +43,12 @@ def init(bot, data):
         text = ["Would you rather:"] + wrap(first, 20) + ["OR"] + wrap(second, 20)
         
         message = await image.centre_image(ctx, text, "scroll_large.png", 50, (0, 0, 0), 10)
-        await message.add_reaction('1⃣')
-        await message.add_reaction('2⃣')
+        await message.add_reaction(numbers.one)
+        await message.add_reaction(numbers.two)
         await asyncio.sleep(0.1)
         
         def check(emote, user):
-            return emote.emoji == '1⃣' or emote.emoji == '2⃣'
+            return emote.emoji == numbers.one or emote.emoji == numbers.two
         
         start_time = time()
         reacted_users = []
@@ -61,7 +62,7 @@ def init(bot, data):
                     continue
                 async with ctx.typing():
                     reacted_users.append(user)
-                    if reaction.emoji == '1⃣':
+                    if reaction.emoji == numbers.one:
                         index = 0
                     else:
                         index = 1
