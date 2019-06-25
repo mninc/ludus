@@ -1,6 +1,7 @@
 from random import choice
 from string import ascii_lowercase
 from util.image import send_image
+import discord
 
 with open("hangman_words.txt") as f:
     words = f.read().split("\n")
@@ -47,8 +48,13 @@ def update_blank(word, current, character_guess):
 
 def init(bot, data):
     @bot.command()
-    async def hangman(ctx):
-        word = choice(words)
+    async def hangman(ctx, user: discord.User = None):
+        if user:
+            await ctx.send("waiting for response from user")
+            await user.send("what word?")
+            word = "response"
+        else:
+            word = choice(words)
         print(word)
         word_displayed = "-" * len(word)
         letters = ascii_lowercase
