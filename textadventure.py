@@ -13,6 +13,7 @@ class Player:
     alive = True
     roundID = "1"
     inventory = []
+    snakeName = ""
 
     def __init__(self, name, user):
         self.name = name
@@ -22,8 +23,9 @@ class Player:
     async def set_name(self, new_name):
         self.name = new_name
 
-    async def die(self):
-        self.alive = False
+    async def set_snake(self, name):
+        await self.user.send("You named Ludus " + name + ".")
+        self.snakeName = name
 
     async def set_scene(self, new_scene):
         self.roundID = new_scene
@@ -66,12 +68,19 @@ async def story(ctx, player, choices):
     alive = player.alive
     while alive:
         options = choices[player.roundID]["options"]
-
         options = await inventory_check(player, options)
 
         if "death" in options:
             await process_image(ctx, choices, player, death=True)
+            await player.user.send("You have fallen, Game over.")
             break
+        elif "name" in options:
+            await process_image(ctx, choices, player, naming=True)
+            answer = await reply.get_reply(ctx, 60, player.user)
+            if answer:
+                await player.set_snake(answer.content)
+                await player.set_scene("name")
+                continue
         else:
             await process_image(ctx, choices, player)
 
@@ -114,14 +123,17 @@ async def inventory_check(player, options):
 
 
 # interacts with util.image to avoid reusing code
-async def process_image(ctx, choices, player, death=False):
+# naming is for the snake naming process
+async def process_image(ctx, choices, player, death=False, naming=False):
     options = choices[player.roundID]["options"]
     path = "adventure/" + choices[player.roundID]["image"]
     boxpath = "adventure/box.png"
     locations = [(160, 40), (95, 515)]
 
-    if len(options) == 1:
+    if len(options) == 1 and not naming:
         options = "Reply with '1' to continue."
+    elif naming:
+        options = choices[options[0]]["desc"]
     elif len(options) == 2:
         options = "1: " + choices[options[0]]["desc"] + "\n2: " + choices[options[1]]["desc"]
     else:
@@ -131,7 +143,5 @@ async def process_image(ctx, choices, player, death=False):
     desc = choices[player.roundID]["text"]
     text = [title, desc]
     await image.send_image(ctx, text, path, locations, 20, (164, 98, 0), user=True, title=True)
-    if death:
-        await player.user.send("You have fallen, Game over.")
-    else:
+    if not death:
         await image.send_image(ctx, [options], boxpath, [(25, 25)], 10, (164, 98, 0), user=True, title=True)
