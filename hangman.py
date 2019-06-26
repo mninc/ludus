@@ -70,7 +70,3 @@ def init(bot, data):
             await old_message.delete()
             await msg.delete()
         await ctx.send("You guessed it! word was " + word)
-
-
-
-
