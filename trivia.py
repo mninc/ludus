@@ -36,14 +36,14 @@ def init(bot, data):
     async def trivia(ctx, *args):
         category = " ".join(args).lower()
         if category and category == "categories":
-            await centre_image(ctx, ["Categories:", "Do >trivia [category]"] + list(categories.keys()), "scroll_large.png", 27, (0, 0, 0), 0)
+            await centre_image(ctx, ["Categories:", "Do >trivia [category]"] + list(categories.keys()), "scroll_large.png", 27, (0, 0, 0))
             return
         if category and category in categories:
             category = categories[category]
         elif not category:
             category = "15"
         else:
-            await centre_image(ctx, ["Invalid category!"], "scroll.png", 40, (0, 0, 0), 0)
+            await centre_image(ctx, ["Invalid category!"], "scroll.png", 40, (0, 0, 0))
             return
         async with ctx.typing():
             async with aiohttp.ClientSession() as session:
@@ -59,17 +59,17 @@ def init(bot, data):
                                     enumerate(possible_answers)):
                         for string in wrapped:
                             text.append(string)
-                    message = await centre_image(ctx, text, "scroll_large.png", 40, (0, 0, 0), 15)
+                    message = await centre_image(ctx, text, "scroll_large.png", 40, (0, 0, 0))
         print(question["correct_answer"])
         await message.add_reaction(numbers.one)
         await message.add_reaction(numbers.two)
         await message.add_reaction(numbers.three)
         await message.add_reaction(numbers.four)
-                    
+        
         def check(emote, user):
             return ctx.author == user and (emote.emoji == numbers.one or emote.emoji == numbers.two
                                            or emote.emoji == numbers.three or emote.emoji == numbers.four)
-
+        
         try:
             reaction, user = await bot.wait_for('reaction_add', timeout=20, check=check)
         except asyncio.TimeoutError:
@@ -82,4 +82,4 @@ def init(bot, data):
                 correct = "That is incorrect, " + ctx.author.display_name + "."
             text = wrap(correct, 30) + ["The answer was:"] + wrap(str(correct_answer + 1) + ": " +
                                                                   question["correct_answer"], 30)
-            await centre_image(ctx, text, "scroll.png", 30, (0, 0, 0), 15)
+            await centre_image(ctx, text, "scroll.png", 30, (0, 0, 0))

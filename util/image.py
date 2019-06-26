@@ -52,25 +52,25 @@ async def post_image(ctx, image, path, user=False):
 # usage:
 # same as above, text is an array of text
 # offset adds line spacing
-async def centre_image(ctx, text, path, size, colour, offset, send=True, user=False):
+async def centre_image(ctx, text, path, size, colour, send=True, user=False):
     image = Image.open("./images/" + path)
     width, height = image.size
+    mid_y = height // 2
+    mid_x = width // 2
     font = ImageFont.truetype("./res/font.ttf", size)
+    ascent, descent = font.getmetrics()
+    font_height = ascent + descent
     d = ImageDraw.Draw(image)
-
-    totalHeight = 0
-    for i in text:
-        textWidth, textHeight = d.textsize(i)
-        totalHeight += textHeight + offset + size
-
-    previousText = 0
-    for i in text:
-        textWidth, textHeight = d.textsize(i, font=font)
-        x = (width-textWidth)/2
-        y = (height - totalHeight)/2 + previousText
-        d.text((x, y), i, font=font, fill=colour)
-        previousText += textHeight + offset
-
+    
+    if len(text) % 2 == 0:
+        mid_offset = (len(text)//2) * font_height * -1
+    else:
+        mid_offset = (((len(text) // 2) * font_height) + font_height//2) * -1
+    for line in text:
+        text_width, _ = d.textsize(line, font=font)
+        d.text((mid_x - (text_width // 2), mid_y + mid_offset), line, font=font, fill=colour)
+        mid_offset += font_height
+    
     if not send:
         return image
 
