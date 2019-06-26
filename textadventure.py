@@ -120,17 +120,7 @@ async def process_image(ctx, choices, player, death=False):
     boxpath = "adventure/box.png"
     locations = [(160, 40), (95, 515)]
 
-    if death:
-        title = choices[player.roundID]["title"]
-        desc = choices[player.roundID]["text"]
-        text = [title, desc]
-        await image.send_image(ctx, text, path, locations, 20, (164, 98, 0), user=True, title=True)
-        title = "Game Over"
-        desc = "You died"
-        text = [title, desc]
-        await image.send_image(ctx, text, path, locations, 20, (164, 98, 0), user=True, title=True)
-        return
-    elif len(options) == 1:
+    if len(options) == 1:
         options = "Reply with '1' to continue."
     elif len(options) == 2:
         options = "1: " + choices[options[0]]["desc"] + "\n2: " + choices[options[1]]["desc"]
@@ -141,4 +131,7 @@ async def process_image(ctx, choices, player, death=False):
     desc = choices[player.roundID]["text"]
     text = [title, desc]
     await image.send_image(ctx, text, path, locations, 20, (164, 98, 0), user=True, title=True)
-    await image.send_image(ctx, [options], boxpath, [(25, 25)], 10, (164, 98, 0), user=True, title=True)
+    if death:
+        await player.user.send("You have fallen, Game over.")
+    else:
+        await image.send_image(ctx, [options], boxpath, [(25, 25)], 10, (164, 98, 0), user=True, title=True)
