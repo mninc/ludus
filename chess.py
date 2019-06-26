@@ -1,6 +1,7 @@
 import discord
 from util.reply import get_reply
 from util.image import add_images
+from util.score import won
 
 
 letters = "ABCDEFGH"
@@ -549,6 +550,7 @@ def init(bot, data):
                                 found_king = True
                     if not found_king:
                         await render_board(ctx, board)
-                        await ctx.send("GG! " + player.mention + " wins!")
+                        score = await won(player, data)
+                        await ctx.send("GG! " + player.mention + " wins! Their score increased by " + str(score) + ".")
                         checkmate = True
                     break

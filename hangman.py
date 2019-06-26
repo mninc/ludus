@@ -2,6 +2,7 @@ from random import choice
 from string import ascii_lowercase
 from util.image import send_image
 from util.reply import get_reply
+from util.score import won
 import discord
 
 with open("hangman_words.txt") as f:
@@ -45,13 +46,16 @@ def init(bot, data):
     @bot.command()
     async def hangman(ctx, user: discord.User = None):
         if user:
-            await ctx.send("waiting for response from user")
-            await user.send("what word?")
+            if user.bot:
+                ctx.send("You can't play against a bot!")
+                return
+            await ctx.send("Waiting for response from " + user.display_name + "...")
+            await user.send("Choose a word for " + ctx.author.display_name + " to guess!")
             reply = await get_reply(ctx, 60, user=user)
             if not reply:
-                await ctx.send("waited too long for response")
-                await user.send("timed out")
+                await ctx.send(user.display_name + " took too long to respond.")
                 return
+            await user.send("Thank you!")
             word = reply.content
         else:
             word = choice(words)
@@ -69,4 +73,5 @@ def init(bot, data):
             word_displayed = update_blank(word, word_displayed, content)
             await old_message.delete()
             await msg.delete()
-        await ctx.send("You guessed it! word was " + word)
+        score = await won(ctx.author, data)
+        await ctx.send("You guessed it! Word was " + word + ". Your score increased by " + str(score) + ".")
