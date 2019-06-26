@@ -29,17 +29,17 @@ async def send_image(ctx, text, path, loc, size, colour, user=False, send=True):
     for i, text in enumerate(text):
         location = loc[i]
         d.text(location, text, font=font, fill=colour)
-
+    
     if not send:
         return image
-
+    
     return await post_image(ctx, image, path, user=user)
-
+    
 
 async def post_image(ctx, image, path, user=False):
-    pictureDir = "./images/temp" + await random_name() + ".jpg"
+    pictureDir = "./images/temp" + await random_name() + ".png"
     image.save(pictureDir)
-
+    
     with open(pictureDir, 'rb') as picture:
         if user:
             message = await ctx.author.send(file=discord.File(picture, path))
@@ -55,7 +55,7 @@ async def post_image(ctx, image, path, user=False):
 async def centre_image(ctx, text, path, size, colour, offset, send=True, user=False):
     image = Image.open("./images/" + path)
     width, height = image.size
-    font = ImageFont.truetype("./res/Roboto-Black.ttf", size)
+    font = ImageFont.truetype("./res/font.ttf", size)
     d = ImageDraw.Draw(image)
 
     totalHeight = 0
@@ -66,8 +66,8 @@ async def centre_image(ctx, text, path, size, colour, offset, send=True, user=Fa
     previousText = 0
     for i in text:
         textWidth, textHeight = d.textsize(i, font=font)
-        x = (width - textWidth) / 2
-        y = (height - totalHeight) / 2 + previousText
+        x = (width-textWidth)/2
+        y = (height - totalHeight)/2 + previousText
         d.text((x, y), i, font=font, fill=colour)
         previousText += textHeight + offset
 
@@ -81,13 +81,14 @@ async def centre_image(ctx, text, path, size, colour, offset, send=True, user=Fa
 # await add_images(ctx, image, ['logo.jpg'], [(0, 0)])
 async def add_images(ctx, image, image_paths, locations, send=True, user=False):
     if type(image) is str:
-        image = Image.open(image)
-
+        image = Image.open("./images/" + image)
+    
     for i, path in enumerate(image_paths):
         location = locations[i]
-        image.paste(Image.open("./images/" + path), location)
-
+        img = Image.open("./images/" + path)
+        image.paste(img, location, img)
+    
     if not send:
         return image
 
-    return await post_image(ctx, image, 'image.jpg', user=user)
+    return await post_image(ctx, image, 'image.png', user=user)
