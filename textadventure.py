@@ -66,13 +66,13 @@ async def story(ctx, player, choices):
     while alive:
         options = choices[player.roundID]["options"]
 
+        options = await inventory_check(player, options)
+
         if "death" in options:
             await process_image(ctx, choices, player, death=True)
             break
         else:
             await process_image(ctx, choices, player)
-
-        await inventory_check(player, options)
 
         answer = await reply.get_reply(ctx, 60, player.user)
         if answer:
@@ -108,6 +108,8 @@ async def inventory_check(player, options):
         if item in options:
             await player.add_inv("- " + itemDescriptions[num])
             await player.user.send("*" + itemDescriptions[num] + "* has been added to your inventory.")
+            options = options.pop(num)
+    return options
 
 
 async def process_image(ctx, choices, player, death=False):
