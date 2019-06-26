@@ -17,11 +17,7 @@ class Player:
     def __init__(self, name, user):
         self.name = name
         self.user = user
-        self.squad = ""
         self.damage = 1
-
-    async def set_squad(self, squad):
-        self.squad = squad
 
     async def set_name(self, new_name):
         self.name = new_name
@@ -35,8 +31,8 @@ class Player:
     async def set_damage(self, new_damage):
         self.damage = new_damage
 
-    async def set_inv(self, new_inv):
-        self.inventory = new_inv
+    async def add_inv(self, item):
+        self.inventory.append(item)
 
 
 def load_file_text(path):
@@ -44,11 +40,14 @@ def load_file_text(path):
         return file.read()
 
 
-def init(bot, data):
-    introLoad = load_file_text("intro.txt")
+def load_file_json(path):
+    with open("res/" + path) as file:
+        return json.load(file)
 
-    with open("res/choices.json") as f:
-        choices = json.load(f)
+
+def init(bot, data):
+    introText = load_file_text("intro.txt")
+    choices = load_file_json("choices.json")
 
     @bot.command()
     async def adventure(ctx):
@@ -57,72 +56,81 @@ def init(bot, data):
     # function run on /textadv begin
     async def begin(ctx):
         user = ctx.message.author
-        introText = ["Hello traveller, or should I say " + user.name + ".", introLoad]
-        await image.send_image(ctx, introText, "black.jpg", [(10, 10), (10, 50)], 25, (255, 255, 255), True)
+        await user.send("Hello " + user.name + " " + introText)
         player = Player(user.name, user)
-        await hypesquad(ctx, player)
-
-    async def hypesquad(ctx, player):
-        await player.user.send("--A load of hypesquad lore etc--")
-        await player.user.send("Choose your HypeSquad")
-        # send hypesquad image
-        for i in range(3):
-            answer = await reply.get_reply(ctx, 60, player.user)
-            if answer:
-                answer = answer.content.lower()
-                if answer == "bravery" or answer == "brilliance" or answer == "balance":
-                    await player.user.send("You chose " + answer)
-                    # replace with image
-                    await player.set_squad(answer)
-                    await story(ctx, player, choices)
-                    break
-                else:
-                    await player.user.send("You didn't enter a house.")
-            else:
-                await player.user.send("You didn't enter a house.")
+        await story(ctx, player, choices)
 
 
 async def story(ctx, player, choices):
     alive = player.alive
     while alive:
-        # 3 chances to choose
-        for i in range(3):
-            # e.g ["6", "7", "8"]
-            options = choices[player.roundID][player.squad]
+        options = choices[player.roundID]["options"]
 
-            if "death" in options:
-                imageText = [choices[player.roundID]["title"], choices[player.roundID]["text"], "Game Over"]
-                await image.centre_image(ctx, imageText, "black.jpg", 25, (255, 255, 255), 10, True, player.user)
-                alive = False
+        if "death" in options:
+            await process_image(ctx, choices, player, death=True)
+            break
+        else:
+            await process_image(ctx, choices, player)
+
+        await inventory_check(player, options)
+
+        answer = await reply.get_reply(ctx, 60, player.user)
+        if answer:
+            answer = answer.content
+            if len(options) == 1 and answer == "1":
+                await player.set_scene(options[0])
+            elif answer == "1" or answer == "2" or answer == "3":
+                answer = int(answer)
+                await player.set_scene(options[answer - 1])
+            elif answer == "inventory":
+                await display_inventory(ctx, player)
+            elif answer == "quit":
+                await player.user.send("Game over.")
                 break
-            elif len(options) == 1:
-                imageText = [choices[player.roundID]["title"], choices[player.roundID]["text"]] + ["1: " + choices[options[0]]["desc"]]
-                await image.centre_image(ctx, imageText, "black.jpg", 25, (255, 255, 255), 10, True, player.user)
-            else:
-                imageText = [choices[player.roundID]["title"], choices[player.roundID]["text"]] + [
-                    "1: " + choices[options[0]]["desc"], "2: " + choices[options[1]]["desc"], "3: " +
-                    choices[options[2]]["desc"]]
-                await image.centre_image(ctx, imageText, "black.jpg", 25, (255, 255, 255), 10, True, player.user)
-
-            choice = await reply.get_reply(ctx, 60, player.user)
-            if choice:
-                choice = choice.content
-                if len(options) == 1 and choice == "1":
-                    await player.set_scene(options[0])
-                    break
-                elif choice == "1" or choice == "2" or choice == "3":
-                    choice = int(choice)
-                    await player.set_scene(options[choice - 1])
-                elif choice == "inventory":
-                    await display_inventory(ctx, player)
-                    break
-            else:
-                await player.user.send("timeout image here")
+        else:
+            await player.user.send("You were inactive for too long, quitting.")
+            break
 
 
 async def display_inventory(ctx, player):
     if player.inventory:
-        imageText = ["Inventory:", "These are the items you have gathered."] + player.inventory
+        imageText = ["Inventory:", "These are the items you have gathered:"] + player.inventory
     else:
         imageText = ["Inventory:", "You haven't found any items."]
-    await image.centre_image(ctx, imageText, "black.jpg", 30, (255, 255, 255), 10, True, player.user)
+    await image.centre_image(ctx, imageText, "black.jpg", 15, (255, 255, 255), True, player.user)
+
+
+# checks if there is anything to add to the inventory from the options
+async def inventory_check(player, options):
+    possibleItems = ["snake"]
+    itemDescriptions = ["A very cool snake"]
+    for num, item in enumerate(possibleItems):
+        if item in options:
+            await player.add_inv("- " + itemDescriptions[num])
+            await player.user.send("*" + itemDescriptions[num] + "* has been added to your inventory.")
+
+
+async def process_image(ctx, choices, player, death=False):
+    options = choices[player.roundID]["options"]
+    path = "adventure/" + choices[player.roundID]["image"]
+    boxpath = "adventure/box.png"
+    locations = [(160, 40), (95, 515)]
+
+    if death:
+        title = "Game Over"
+        desc = "You died"
+        text = [title, desc]
+        await image.send_image(ctx, text, path, locations, 20, (164, 98, 0), user=True, title=True)
+        return
+    elif len(options) == 1:
+        options = "Reply with '1' to continue."
+    elif len(options) == 2:
+        options = "1: " + choices[options[0]]["desc"] + "\n2: " + choices[options[1]]["desc"]
+    else:
+        options = "1: " + choices[options[0]]["desc"] + "\n2: " + choices[options[1]]["desc"] + "\n3:" + choices[options[2]]["desc"]
+
+    title = choices[player.roundID]["title"]
+    desc = choices[player.roundID]["text"]
+    text = [title, desc]
+    await image.send_image(ctx, text, path, locations, 20, (164, 98, 0), user=True, title=True)
+    await image.send_image(ctx, [options], boxpath, [(25, 25)], 10, (164, 98, 0), user=True, title=True)

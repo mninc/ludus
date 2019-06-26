@@ -21,12 +21,15 @@ async def random_name():
 # font is the font size, in pixels
 # colour is a tuple of the rgb
 # user is if the message is being sent in the current channel or to the author
-async def send_image(ctx, text, path, loc, size, colour, user=False, send=True):
+async def send_image(ctx, text, path, loc, size, colour, user=False, send=True, fontpath="font.ttf", title=False):
     image = Image.open("./images/" + path)
-    font = ImageFont.truetype("./res/Roboto-Black.ttf", size)
     d = ImageDraw.Draw(image)
 
     for i, text in enumerate(text):
+        if title and i == 0:
+            font = ImageFont.truetype("./res/" + fontpath, size + 10)
+        else:
+            font = ImageFont.truetype("./res/" + fontpath, size)
         location = loc[i]
         d.text(location, text, font=font, fill=colour)
     

@@ -1,2 +1,5 @@
-swag city
-bruh time
+Welcome to the Ludus **Text Adventure Game**
+Playing the game is simple, choose options `1`, `2` or `3` when asked to select one.
+To access your inventory type `inventory`.
+The game will quit automatically if you are inactive for over 60 seconds.
+Enjoy!
