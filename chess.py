@@ -86,7 +86,6 @@ def init(bot, data):
         
         # 0 is white, 1 is black
         checkmate = False
-        check = False
         while not checkmate:
             for player_number, player in enumerate(players):
                 if checkmate:
@@ -97,10 +96,7 @@ def init(bot, data):
                     text += " You are black. "
                 else:
                     text += " You are white. "
-                if check:
-                    text += "You are also in check! "
                 text += "Write the tile to move a chess piece from and to, eg B1 C3"
-                check = False
                 await ctx.send(text)
                 while True:
                     move = await get_reply(ctx, 120, channel_user=player)
