@@ -2,6 +2,7 @@ import discord
 from util.reply import get_reply
 from util.image import add_images
 from copy import deepcopy
+from util.score import won
 
 
 positions = []
@@ -61,8 +62,11 @@ async def check_winner(board):
 def init(bot, data):
     @bot.command(aliases=["ttt", "tic_tac_toe"])
     async def tictactoe(ctx, user: discord.User):
+        if user.bot:
+            await ctx.send("You can't play against a bot! Unless they're a selfbot.")
+            return
         text = "Tic tac toe!\n" + user.mention + ": " + ctx.author.display_name + \
-               " has invited you to play battleships. Type 'play' to confirm."
+               " has invited you to play tic tac toe. Type 'play' to confirm."
         await ctx.send(text)
         message = await get_reply(ctx, 30, channel_user=user)
         if not message or message.content.lower() != "play":
@@ -83,7 +87,7 @@ def init(bot, data):
                     text += "cross."
                 await ctx.send(text)
                 while True:
-                    position = await get_reply(ctx, 30, channel_user=user)
+                    position = await get_reply(ctx, 30, channel_user=player)
                     if not position:
                         await ctx.send("You took too long to reply, the game has been cancelled.")
                         return
@@ -103,5 +107,6 @@ def init(bot, data):
                 
                 if await check_winner(board):
                     await render_board(ctx, board)
-                    await ctx.send("GG! " + player.mention + " wins!")
+                    score = await won(player, data)
+                    await ctx.send("GG! " + player.mention + " wins! Their score increased by " + str(score) + ".")
                     return

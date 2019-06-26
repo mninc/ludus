@@ -4,6 +4,7 @@ from textwrap import wrap
 from random import shuffle
 from html import unescape
 import util.number_emotes as numbers
+from util.score import won
 import asyncio
 
 
@@ -78,6 +79,7 @@ def init(bot, data):
             correct_answer = possible_answers.index(question["correct_answer"])
             if numbers.numbers.index(reaction.emoji) == correct_answer:
                 correct = "That is correct, " + ctx.author.display_name + "!"
+                await won(ctx.author, data)
             else:
                 correct = "That is incorrect, " + ctx.author.display_name + "."
             text = wrap(correct, 30) + ["The answer was:"] + wrap(str(correct_answer + 1) + ": " +

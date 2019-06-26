@@ -2,6 +2,7 @@ import discord
 from util.reply import get_reply
 from util.image import add_images
 from copy import deepcopy
+from util.score import won
 
 
 positions = []
@@ -251,6 +252,8 @@ def init(bot, data):
                     await render_pegboard(user, other_board)
                     
                     if ship_pieces_left[abs(i - 1)] == 0:
-                        await user.send("You have sunk all their ships. You win!")
+                        score = await won(user, data)
+                        await user.send("You have sunk all their ships. You win! Your score increased by " +
+                                        str(score) + ".")
                         await message_other(i, players, "They sunk all your ships. They win.")
                         await render_real(players[abs(i - 1)], other_board)
