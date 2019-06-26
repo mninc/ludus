@@ -61,6 +61,7 @@ def init(bot, data):
         await story(ctx, player, choices)
 
 
+# function with main game loop
 async def story(ctx, player, choices):
     alive = player.alive
     while alive:
@@ -112,6 +113,7 @@ async def inventory_check(player, options):
     return options
 
 
+# interacts with util.image to avoid reusing code
 async def process_image(ctx, choices, player, death=False):
     options = choices[player.roundID]["options"]
     path = "adventure/" + choices[player.roundID]["image"]
@@ -119,6 +121,10 @@ async def process_image(ctx, choices, player, death=False):
     locations = [(160, 40), (95, 515)]
 
     if death:
+        title = choices[player.roundID]["title"]
+        desc = choices[player.roundID]["text"]
+        text = [title, desc]
+        await image.send_image(ctx, text, path, locations, 20, (164, 98, 0), user=True, title=True)
         title = "Game Over"
         desc = "You died"
         text = [title, desc]
