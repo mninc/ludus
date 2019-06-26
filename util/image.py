@@ -79,16 +79,22 @@ async def centre_image(ctx, text, path, size, colour, send=True, user=False):
 
 # image = await send_image(ctx, ['bruh'], 'white.jpg', [(200, 200)], 40, (0, 0, 0), send=False)
 # await add_images(ctx, image, ['logo.jpg'], [(0, 0)])
-async def add_images(ctx, image, image_paths, locations, send=True, user=False):
+async def add_images(ctx, image, image_paths, locations, centre=False, send=True, user=False):
     if type(image) is str:
         image = Image.open("./images/" + image)
+
+    background = Image.new('RGBA', (image.size[0], image.size[1]), (0, 0, 0, 0))
+    background.paste(image, (0, 0))
     
     for i, path in enumerate(image_paths):
         location = locations[i]
         img = Image.open("./images/" + path)
-        image.paste(img, location, img)
+        if centre:
+            location = (location[0] - (img.size[0]//2), location[1] - (img.size[1]//2))
+        
+        background.paste(img, location, mask=img)
     
     if not send:
         return image
 
-    return await post_image(ctx, image, 'image.png', user=user)
+    return await post_image(ctx, background, 'image.png', user=user)
