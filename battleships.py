@@ -40,7 +40,7 @@ async def render_real(user, board):
     pieces = []
     rotations = []
     i = 0
-    hit_tiles = ["battleships/fire1.png", "battleships/fire2.png", "battleships/fire3.png"]
+    hit_tiles = ["battleships/fire_1.png", "battleships/fire_2.png", "battleships/fire_3.png"]
     for x in range(10):
         for y in range(10):
             ship = board[x][y]
