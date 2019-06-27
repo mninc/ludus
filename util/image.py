@@ -4,6 +4,8 @@ import discord
 import random
 import os
 import string
+import requests
+import shutil
 
 
 async def random_name():
@@ -98,3 +100,19 @@ async def add_images(ctx, image, image_paths, locations, centre=False, send=True
         return image
 
     return await post_image(ctx, background, 'image.png', user=user)
+
+
+async def download_image(ctx, url):
+    file_type = url.split(".")
+    file_type = file_type[len(file_type) - 1]
+    if file_type.lower() not in ["jpg", "jpeg", "png", "gif"]:
+        return False
+    r = requests.get(url, stream=True)
+    path = "./images/" + await random_name() + "." + file_type
+    with open(path, 'wb') as f:
+        r.raw.decode_content = True
+        shutil.copyfileobj(r.raw, f)
+    with open(path, "rb") as picture:
+        await ctx.send(file=discord.File(picture, 'meme.' + file_type))
+    os.remove(path)
+    return True

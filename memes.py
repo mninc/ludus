@@ -1,9 +1,6 @@
 from random import choice
 from util.reddit import reddit
-from util.image import random_name
-import requests
-import discord
-import shutil
+from util.image import download_image
 
 
 async def get_meme(ctx, subreddit):
@@ -13,15 +10,8 @@ async def get_meme(ctx, subreddit):
             thread = choice(threads)
             if not thread.url or thread.over_18:
                 continue
-            file_type = thread.url.split(".")
-            file_type = file_type[len(file_type) - 1]
-            r = requests.get(thread.url, stream=True)
-            path = "./images/" + await random_name() + "." + file_type
-            with open(path, 'wb') as f:
-                r.raw.decode_content = True
-                shutil.copyfileobj(r.raw, f)
-            with open(path, "rb") as picture:
-                await ctx.send(file=discord.File(picture, 'meme.' + file_type))
+            if not await download_image(ctx, thread.url):
+                continue
             break
 
 
@@ -39,15 +29,15 @@ def init(bot, data):
         await get_meme(ctx, 'prequelmemes')
 
     @bot.command()
-    async def i_irl(ctx):
-        await get_meme(ctx, 'i_irl')
-
-    @bot.command()
     async def me_irl(ctx):
         await get_meme(ctx, 'me_irl')
 
     @bot.command()
     async def historymeme(ctx):
         await get_meme(ctx, 'historymemes')
+    
+    @bot.command()
+    async def comedyheaven(ctx):
+        await get_meme(ctx, 'comedyheaven')
     
     # can add many more
