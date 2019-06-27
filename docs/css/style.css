@@ -107,12 +107,16 @@ h1, p {
 }
 
 .box{
-    background: #eeeeee;
+    /*background: #eeeeee;*/
     border-radius: 3px;
     width: fit-content;
     padding: 10px;
     margin-bottom: 10px;
     margin-left: -10px;
+}
+
+.box h2, .box h3 {
+    margin: 0;
 }
 
 .box h4{
@@ -121,7 +125,7 @@ h1, p {
     text-decoration: underline;
 }
 
-.box a{
+.dev a{
     margin: 0 10px 0 10px;
 }
 
@@ -140,6 +144,7 @@ h1, p {
 .dev{
     display: flex;
     border-bottom: 2px solid #c727f5;
+    background: #eeeeee;
 }
 
 .artist{

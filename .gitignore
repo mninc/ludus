@@ -1,4 +1,5 @@
 *.json
+!/config_example.json
 .idea/
 /images/temp/*
 __pycache__/
