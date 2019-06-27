@@ -81,7 +81,7 @@ async def centre_image(ctx, text, path, size, colour, send=True, user=False):
 
 # image = await send_image(ctx, ['bruh'], 'white.jpg', [(200, 200)], 40, (0, 0, 0), send=False)
 # await add_images(ctx, image, ['logo.jpg'], [(0, 0)])
-async def add_images(ctx, image, image_paths, locations, centre=False, send=True, user=False):
+async def add_images(ctx, image, image_paths, locations, rotations=None, centre=False, send=True, user=False):
     if type(image) is str:
         image = Image.open("./images/" + image)
 
@@ -91,6 +91,9 @@ async def add_images(ctx, image, image_paths, locations, centre=False, send=True
     for i, path in enumerate(image_paths):
         location = locations[i]
         img = Image.open("./images/" + path)
+        if rotations:
+            if rotations[i]:
+                img = img.rotate(rotations[i])
         if centre:
             location = (location[0] - (img.size[0]//2), location[1] - (img.size[1]//2))
         

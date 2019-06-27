@@ -3,17 +3,27 @@ from util.reply import get_reply
 from util.image import add_images
 from copy import deepcopy
 from util.score import won
+from random import choice
 
 
-positions = []
+real_positions = []
 x = 40
 y = 40
 for _ in range(10):
     for _ in range(10):
-        positions.append((x + 11, y + 11))
+        real_positions.append((x + 11, y + 11))
         y += 22
     y = 40
     x += 22
+pegboard_positions = []
+x = 110
+y = 80
+for _ in range(10):
+    for _ in range(10):
+        pegboard_positions.append((x + 11, y + 11))
+        y += 120
+    y = 80
+    x += 120
 blank_board = [["none" for _ in range(10)] for _ in range(10)]
 letters = "ABCDEFGHIJ"
 ships = {
@@ -28,16 +38,32 @@ ships = {
 async def render_real(user, board):
     our_positions = []
     pieces = []
+    rotations = []
     i = 0
+    hit_tiles = ["battleships/fire1.png", "battleships/fire2.png", "battleships/fire3.png"]
     for x in range(10):
         for y in range(10):
             ship = board[x][y]
             if ship != "none" and ship != "miss":
-                our_positions.append(positions[i])
+                our_positions.append(real_positions[i])
+                if "_h_" in ship:
+                    rotations.append(90)
+                    ship = ship.replace("_h_", "")
+                else:
+                    rotations.append(0)
+                    ship = ship.replace("_v_", "")
+                if "_hit" in ship:
+                    hit = True
+                else:
+                    hit = False
+                ship = ship.replace("_hit", "").replace("_unhit", "")
                 pieces.append("battleships/" + ship + ".png")
+                if hit:
+                    our_positions.append(real_positions[i])
+                    pieces.append(choice(hit_tiles))
             i += 1
     
-    return await add_images(user, 'battleships/battleships_sea.png', pieces, our_positions, centre=True)
+    return await add_images(user, 'battleships/sea.png', pieces, our_positions, rotations=rotations, centre=True)
 
 
 async def render_pegboard(user, board):
@@ -49,10 +75,10 @@ async def render_pegboard(user, board):
             ship = board[x][y]
             if ship == "miss":
                 pieces.append("battleships/miss.png")
-                our_positions.append(positions[i])
+                our_positions.append(pegboard_positions[i])
             elif "hit" in ship and "unhit" not in ship:
                 pieces.append("battleships/hit.png")
-                our_positions.append(positions[i])
+                our_positions.append(pegboard_positions[i])
             i += 1
     
     return await add_images(user, 'battleships/pegboard.png', pieces, our_positions, centre=True)
