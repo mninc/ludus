@@ -25,7 +25,7 @@ async def random_name():
 # user is if the message is being sent in the current channel or to the author
 async def send_image(ctx, text, path, loc, size, colour, user=False, send=True):
     image = Image.open("./images/" + path)
-    font = ImageFont.truetype("./res/Roboto-Black.ttf", size)
+    font = ImageFont.truetype("./res/font.ttf", size)
     d = ImageDraw.Draw(image)
 
     for i, text in enumerate(text):

@@ -4,6 +4,8 @@ from util.image import send_image
 from util.reply import get_reply
 from util.score import won
 import discord
+from copy import copy
+
 
 with open("hangman_words.txt") as f:
     words = f.read().split("\n")
@@ -11,28 +13,30 @@ with open("hangman_words.txt") as f:
 letter_position = []
 
 # alphabet
-x = 100
-y = 500
+x = 190
+y = 830
 for i in range(0, 26):
     if i and not i % 13:
-        x = 100
-        y += 40
+        x = 190
+        y += 70
     letter_position.append((x, y))
-    x += 40
-
-# word
-x = 100
-y = 200
-for i in range(0, 40):
-    letter_position.append((x, y))
-    x += 40
+    x += 50
 
 
-async def generate_image(ctx, letters):
-    return await send_image(ctx, letters, "white.jpg", letter_position, 40, (0, 0, 0))
+async def generate_image(ctx, letters, word, lives):
+    letter_pos = copy(letter_position)
+    y = 110
+    if len(word) % 2 == 0:
+        x = 500 - ((len(word) // 2) * 40)
+    else:
+        x = 475 - ((len(word) // 2) * 40)
+    for _ in word:
+        letter_pos.append((x, y))
+        x += 40
+    return await send_image(ctx, letters + word, "hangman/hangman" + str(11 - lives) + ".png", letter_pos, 40, (0, 0, 0))
 
 
-def update_blank(word, current, character_guess):
+async def update_blank(word, current, character_guess):
     result = ""
     for i in range(len(word)):
         if word[i] == character_guess:
@@ -63,15 +67,35 @@ def init(bot, data):
         word_displayed = "-" * len(word)
         letters = ascii_lowercase
         
+        lives = 10
         while word_displayed != word:
-            old_message = await generate_image(ctx, letters + word_displayed)
+            await generate_image(ctx, letters, word_displayed, lives)
+            if lives == 0:
+                break
+            await ctx.send(ctx.author.mention + ": Guess a letter.")
             msg = await get_reply(ctx, 30)
-            content = msg.content
-            if len(msg.content) != 1:
-                await ctx.send("one character pls")
+            if not msg:
+                await ctx.send(ctx.author.mention + ": You took to long to reply!")
+                return
+            content = msg.content.lower()
+            if len(content) != 1:
+                await ctx.send("One character only!")
                 continue
-            word_displayed = update_blank(word, word_displayed, content)
-            await old_message.delete()
-            await msg.delete()
+            if content not in ascii_lowercase:
+                await ctx.send("Invalid character!")
+                continue
+            if content not in letters:
+                await ctx.send("You've already guessed that letter!")
+                continue
+            
+            old_word_displayed = word_displayed
+            word_displayed = await update_blank(word, word_displayed, content)
+            if word_displayed == old_word_displayed:
+                lives -= 1
+            letters = letters.replace(content, " ")
+        if lives == 0:
+            await ctx.send(ctx.author.mention + " you are out of lives! Word was `" + word + "`. Why not try again?")
+            return
         score = await won(ctx.author, data)
-        await ctx.send("You guessed it! Word was " + word + ". Your score increased by " + str(score) + ".")
+        await ctx.send(ctx.author.mention + " you guessed it! Word was " + word + ". Your score increased by " +
+                       str(score) + ".")
