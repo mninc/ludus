@@ -2,7 +2,7 @@ from string import ascii_lowercase
 
 
 def init(bot, data):
-    @bot.command()
+    @bot.command(aliases=["emojitext"])
     async def emojistring(ctx, *args):
         text = " ".join(args)
         message = ""
