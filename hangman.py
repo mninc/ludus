@@ -12,7 +12,6 @@ with open("hangman_words.txt") as f:
 
 letter_position = []
 
-# alphabet
 x = 190
 y = 830
 for i in range(0, 26):
@@ -63,7 +62,6 @@ def init(bot, data):
             word = reply.content
         else:
             word = choice(words)
-        print(word)
         word_displayed = "-" * len(word)
         letters = ascii_lowercase
         
