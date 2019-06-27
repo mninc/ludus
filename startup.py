@@ -1,5 +1,15 @@
 import json
 import discord
+import asyncio
+
+
+async def cycle_games(bot):
+    games = ["Battleships", "Chess", "Connect 4", "Hangman", "Rock, Paper, Scissors", "Tic Tac Toe", "Trivia",
+             "Would You Rather"]
+    while True:
+        for game in games:
+            await bot.change_presence(activity=discord.Game(game))
+            await asyncio.sleep(12)
 
 
 def init(bot, data):
@@ -10,4 +20,5 @@ def init(bot, data):
     async def on_ready():
         print("Ludus is ready.")
         print("---")
-        await bot.change_presence(activity=discord.Game(config["presence"]))
+        await cycle_games(bot)
+
