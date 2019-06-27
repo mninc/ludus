@@ -27,10 +27,10 @@ async def render_board(ctx, board):
             square = board[x][y]
             if square != "none":
                 our_positions.append(positions[i])
-                pieces.append(square + ".png")
+                pieces.append("tictactoe/" + square + ".png")
             i += 1
     
-    return await add_images(ctx, 'tictactoe.png', pieces, our_positions)
+    return await add_images(ctx, 'tictactoe/board.png', pieces, our_positions)
 
 
 async def get_xy(string):
