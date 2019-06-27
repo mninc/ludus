@@ -38,19 +38,20 @@ def init(bot, data):
             await ctx.send(ctx.author.mention + ": invalid format! Do >makememe formats")
             return
         
-        url = "https://api.imgflip.com/caption_image"
-        template_id = formats[args[0].lower()]
-        line1 = args[1]
-        line2 = args[2]
-        
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, params={
-                "username": config["imgflip_username"],
-                "password": config["imgflip_password"],
-                "template_id": template_id,
-                "text0": line1,
-                "text1": line2
-            }) as response:
-                r = await response.json()
-                image_url = r["data"]["url"]
-                await download_image(ctx, image_url)
+        async with ctx.typing():
+            url = "https://api.imgflip.com/caption_image"
+            template_id = formats[args[0].lower()]
+            line1 = args[1]
+            line2 = args[2]
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, params={
+                    "username": config["imgflip_username"],
+                    "password": config["imgflip_password"],
+                    "template_id": template_id,
+                    "text0": line1,
+                    "text1": line2
+                }) as response:
+                    r = await response.json()
+                    image_url = r["data"]["url"]
+                    await download_image(ctx, image_url)
