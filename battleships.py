@@ -34,10 +34,10 @@ async def render_real(user, board):
             ship = board[x][y]
             if ship != "none" and ship != "miss":
                 our_positions.append(positions[i])
-                pieces.append(ship + ".png")
+                pieces.append("battleships/" + ship + ".png")
             i += 1
     
-    return await add_images(user, 'battleships_sea.png', pieces, our_positions, centre=True)
+    return await add_images(user, 'battleships/battleships_sea.png', pieces, our_positions, centre=True)
 
 
 async def render_pegboard(user, board):
@@ -48,14 +48,14 @@ async def render_pegboard(user, board):
         for y in range(10):
             ship = board[x][y]
             if ship == "miss":
-                pieces.append("miss.png")
+                pieces.append("battleships/miss.png")
                 our_positions.append(positions[i])
             elif "hit" in ship and "unhit" not in ship:
-                pieces.append("hit.png")
+                pieces.append("battleships/hit.png")
                 our_positions.append(positions[i])
             i += 1
     
-    return await add_images(user, 'battleships_pegboard.png', pieces, our_positions, centre=True)
+    return await add_images(user, 'battleships/pegboard.png', pieces, our_positions, centre=True)
 
 
 async def message_other(player_number, players, message):
