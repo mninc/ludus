@@ -14,3 +14,7 @@ def init(bot, data):
     @bot.command()
     async def contributors(ctx):
         await ctx.send("Ludus was developed by <@156895789795246081> and <@197059070740398080>, with art from <@253584079113551873>.")
+
+    @bot.command()
+    async def website(ctx):
+        await ctx.send("Visit our website: https://mninc.github.io/ludus/")
