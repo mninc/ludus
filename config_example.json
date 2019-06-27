@@ -4,5 +4,7 @@
   "presence": "",
   "reddit_id": "",
   "reddit_secret": "",
-  "reddit_user_agent": ""
+  "reddit_user_agent": "",
+  "imgflip_username": "",
+  "imgflip_password": ""
 }
