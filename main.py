@@ -5,8 +5,13 @@ import os
 from threading import Thread
 from time import sleep
 
-with open("config.json") as f:
-    config = json.load(f)
+if not os.path.isfile('config.json'):
+    print("Could not find config.json. Read about creating it here: https://mninc.github.io/ludus/")
+    input("Press enter to quit.")
+    exit()
+else:
+    with open("config.json") as f:
+        config = json.load(f)
 if not os.path.isfile('data.json'):
     data = {}
 else:
