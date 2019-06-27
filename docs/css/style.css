@@ -150,6 +150,7 @@ h1, p {
 .artist{
     display: flex;
     border-bottom: 2px solid #ffc02d;
+    background: #eeeeee;
 }
 
 .centre{
