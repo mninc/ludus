@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Cutive+Mono|Raleway&display=swap');
 
 ::-webkit-scrollbar {
     width: 12px;
@@ -19,7 +19,7 @@
 body {
     margin: 0;
     background-color: #99B5F2;
-    font-family: Raleway, Verdana, sans-serif;
+    font-family: Raleway, sans-serif;
 }
 
 h1, p {
@@ -159,4 +159,10 @@ h1, p {
 
 .indent{
     margin-left: 10px;
+}
+
+.monospaced {
+    font-family: 'Cutive Mono', monospace;
+    font-size: 20px;
+    background: #dfdfdf;
 }
