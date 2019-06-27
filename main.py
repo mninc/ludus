@@ -7,8 +7,11 @@ from time import sleep
 
 with open("config.json") as f:
     config = json.load(f)
-with open("data.json") as f:
-    data = json.load(f)
+if not os.path.isfile('data.json'):
+    data = {}
+else:
+    with open("data.json") as f:
+        data = json.load(f)
 
 
 def save_data():
