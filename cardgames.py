@@ -8,7 +8,8 @@ def init(bot, data):
     async def blackjack(ctx):
         # add image to show black jack start
         await ctx.send("Black Jack started by " + ctx.author.mention + " (high aces).")
-        await ctx.send("Type `blackjack join` to join the game (max 5). \n" + ctx.author.mention + " type `start` to begin.")
+        await ctx.send("Type `blackjack join` to join the game (max 5). \n" + ctx.author.mention +
+                       " type `start` to begin.\nType `quit` at any point to end the game.")
 
         players = [ctx.author]
         quitting = False
@@ -17,7 +18,7 @@ def init(bot, data):
             answer = await reply.get_reply(ctx, 30, any_user=True)
             if answer.content == "blackjack join" and answer.author not in players:
                 players.append(answer.author)
-            elif answer.author == ctx.author and answer.content == "start" and players:
+            elif answer.author == ctx.author and answer.content == "start" and len(players) > 1:
                 break
             elif answer.author == ctx.author and answer.content == "quit":
                 quitting = True
@@ -116,6 +117,8 @@ async def begin_blackjack(ctx, players):
                     await ctx.send(player.mention + " has gone bust with cards: ")
                     await send_cards(playerTotals[player.id]["images"], ctx)
                     break
+            if answer.content == "quit":
+                break
 
     if topPlayers and highscore:
         if len(topPlayers) > 1:
