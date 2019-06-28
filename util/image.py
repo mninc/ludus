@@ -23,7 +23,7 @@ async def random_name():
 # font is the font size, in pixels
 # colour is a tuple of the rgb
 # user is if the message is being sent in the current channel or to the author
-async def send_image(ctx, text, path, loc, size, colour, user=False, send=True):
+async def send_image(ctx, text, path, loc, size, colour, user=False, send=True, dm=None):
     image = Image.open("./images/" + path)
     font = ImageFont.truetype("./res/font.ttf", size)
     d = ImageDraw.Draw(image)
@@ -34,17 +34,22 @@ async def send_image(ctx, text, path, loc, size, colour, user=False, send=True):
     
     if not send:
         return image
+
+    if dm:
+        return await post_image(ctx, image, path, dm=dm)
     
     return await post_image(ctx, image, path, user=user)
     
 
-async def post_image(ctx, image, path, user=False):
+async def post_image(ctx, image, path, user=False, dm=None):
     pictureDir = "./images/temp" + await random_name() + ".png"
     image.save(pictureDir)
     
     with open(pictureDir, 'rb') as picture:
         if user:
             message = await ctx.author.send(file=discord.File(picture, path))
+        elif dm:
+            message = await dm.send(file=discord.File(picture, path))
         else:
             message = await ctx.send(file=discord.File(picture, path))
     os.remove(pictureDir)
