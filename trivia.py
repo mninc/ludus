@@ -67,8 +67,9 @@ def init(bot, data):
         await message.add_reaction(numbers.four)
         
         def check(emote, user):
-            return ctx.author == user and (emote.emoji == numbers.one or emote.emoji == numbers.two
-                                           or emote.emoji == numbers.three or emote.emoji == numbers.four)
+            return not user.bot and emote.message.id == message.id and ctx.author == user and \
+                   (emote.emoji == numbers.one or emote.emoji == numbers.two or emote.emoji == numbers.three or
+                    emote.emoji == numbers.four)
         
         try:
             reaction, user = await bot.wait_for('reaction_add', timeout=20, check=check)
