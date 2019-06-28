@@ -8,7 +8,7 @@ body {
     padding-left: 15%;
 }
 
-h1, h2, p, li {
+h1, h2, p, li, th, td {
     color: white;
     margin: 0;
 }
@@ -59,4 +59,26 @@ a {
 
 .section {
     padding-bottom: 50vh;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th {
+    border-bottom: 1px solid white;
+    padding-right: 50px;
+    text-align: left;
+}
+
+.collapse {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.hidden {
+    display: none;
+}
+
+.hidden td {
+    padding-bottom: 10px;
 }

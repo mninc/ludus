@@ -6,6 +6,7 @@
     <title>Ludus - Discord Bot</title>
 
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="icon" type="image/png" href="favicon.png">
 
     <meta name="description" content="Ludus: An entertainment discord bot that lets you play many games on your own or with friends. Built for Discord Hackweek 2019.">
@@ -35,9 +36,28 @@
     <p>Text here</p>
 </div>
 
-<div class="section">
-    <h1>Features</h1>
-    <p>Text here</p>
+<div class="section" id="commands">
+    <h1>Commands</h1>
+    <p>The command prefix is <b>></b>.</p>
+    <br>
+    <table>
+        <tr>
+            <th>command</th>
+            <th>description</th>
+        </tr>
+        <tr>
+            <td>help</td>
+            <td>Displays the help command. <a class="collapse" data-toggles="1">Expand</a> </td>
+        </tr>
+        <tr class="hidden" data-section="1">
+            <td></td>
+            <td>Usage: <span class="monospaced">>help</span> </td>
+        </tr>
+        <tr>
+            <td>trivia</td>
+            <td>asks you a trivia question</td>
+        </tr>
+    </table>
 </div>
 
 <div class="section right">
@@ -72,6 +92,7 @@
     </ul>
 </div>
 
+<script src="js/index.js"></script>
 
 </body>
 </html>
