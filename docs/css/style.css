@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Cutive+Mono|Raleway:400,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Cutive+Mono|Raleway&display=swap');
 
 body {
     margin: 0;
@@ -36,7 +36,6 @@ a {
 
 #title-text h1{
     font-size: 100px;
-    font-weight: 900;
 }
 
 #header {
