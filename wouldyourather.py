@@ -58,9 +58,9 @@ def init(bot, data):
             except asyncio.TimeoutError:
                 pass
             else:
-                if user in reacted_users:
+                if user.id in reacted_users:
                     continue
-                reacted_users.append(user)
+                reacted_users.append(user.id)
                 if reaction.emoji == numbers.one:
                     index = 0
                 else:
