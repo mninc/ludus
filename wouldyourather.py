@@ -48,7 +48,7 @@ def init(bot, data):
         await asyncio.sleep(0.1)
         
         def check(emote, user):
-            return not user.bot and emote.message == message and \
+            return not user.bot and emote.message.id == message.id and \
                    (emote.emoji == numbers.one or emote.emoji == numbers.two)
         
         start_time = time()
