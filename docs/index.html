@@ -5,11 +5,17 @@
 
     <title>Ludus - Discord Bot</title>
 
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="js/index.js"></script>
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <meta name="description" content="Ludus: An entertainment discord bot that lets you play many games on your own or with friends. Built for Discord Hackweek 2019.">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mninc.github.io/ludus/" />
+    <meta property="og:title" content="Ludus - Discord Bot" />
+    <meta property="og:image" content="https://mninc.github.io/ludus/img/embed_image.png" />
+    <meta property='og:description'  content='Ludus: An entertainment discord bot that lets you play many games on your own or with friends. Built for Discord Hackweek 2019.'>
 </head>
 <body>
 <div id="header">
@@ -21,80 +27,72 @@
             <p><i>Discord bot for Discord Hack Week 2019.</i></p>
             <p><i><a href="https://discord.gg/qZQN53p" target="_blank">Try it out on our discord server!</a></i></p>
         </div>
-        <img src="img/hack_badge_black.png" alt="icon">
+        <img src="img/hack_badge_white.png" alt="icon">
     </div>
 </div>
 
-<div id="main" data-aos="zoom-in-up" data-aos-duration="1000" data-aos-delay="50">
-    <div class="container">
-        <br>
-        <div class="box"><h2>Developers:</h2></div>
-        <div class="box dev">
-            <p>manic #5170 - </p>
-            <a href="https://github.com/mninc" target="_blank">GitHub</a>
-            <a href="https://manic.tf/" target="_blank">Website</a>
-        </div>
-        <div class="box dev">
-            <p>sayersauce #4319 - </p>
-            <a href="https://github.com/sayersauce" target="_blank">GitHub</a>
-            <a href="https://sayer.ninja" target="_blank">Website</a>
-        </div>
-        <br>
-        <div class="box"><h2>Artist:</h2></div>
-        <div class="box artist">
-            <p>Alec #9598 - </p>
-            <a href="https://images.sayer.ninja/uploads/tzEHJCFezJ.jpg" target="_blank">Funny Cat</a></div>
-        <br>
-    </div>
-    <br>
-    <div class="container">
-        <br>
-        <div class="box"><h2>About:</h2></div>
-        <div class="box extended">
-            <p>text heres</p>
-        </div>
-    </div>
-    <br>
-    <div class="container">
-        <br>
-        <div class="box"><h2>Features:</h2></div>
-        <div class="box extended">
-            <p>Ludus was created to have many uses and features. Hence the long contents below.</p>
-            <ul>
-                <li>add features</li>
-            </ul>
-        </div>
-    </div>
-    <br>
-    <div class="container">
-        <br>
-        <div class="box"><h2>Installation:</h2></div>
-        <div class="box extended">
-            <h3>Set up the bot</h3>
-            <ul>
-                <li>Download Python 3.6+</li>
-                <li>Clone the repository: <span class="monospaced">git clone https://github.com/mninc/ludus.git</span></li>
-                <li>Fill in the config file (see below)</li>
-                <li>Install packages necessary packages using pip: <span class="monospaced">pip3 install discord.py praw pillow</span>. (pip not installed? Do <span class="monospaced">sudo apt install python3-pip</span>) </li>
-                <li>Run main.py: <span class="monospaced">python3 main.py</span></li>
-            </ul>
-            <h3>Config file</h3>
-            <p>You need to make a config file to run the bot. Fill in <a href="https://github.com/mninc/ludus/blob/master/config_example.json" target="_blank">config_example.json</a> with the following details and rename it to config.json before running the bot for the first time.</p>
-            <ul>
-                <li><b>token</b> - discord bot token. If you don't already have one, you can create one <a href="https://discordapp.com/developers/applications/" target="_blank">here</a></li>
-                <li><b>prefix</b> - discord bot command prefix</li>
-                <li><b>presence</b> - discord bot presence. The bot will appear to be playing this</li>
-                <li><b>reddit_id</b> - reddit application id. You can create one <a href="https://www.reddit.com/prefs/apps" target="_blank">here</a>. You must select 'script' to make it a script application</li>
-                <li><b>reddit_secret</b> - reddit application secret</li>
-                <li><b>reddit_user_agent</b> - the user agent reddit will see when a query is made to their api. Changing this will not affect the functionality of the bot</li>
-                <li><b>imgflip_username</b> - username to an imgflip account</li>
-                <li><b>imgflip_password</b> - password to that imgflip account</li>
-
-            </ul>
-        </div>
-    </div>
-    <!-- more stuff -->
+<div class="section right">
+    <h1>About</h1>
+    <p>Text here</p>
 </div>
+
+<div class="section" id="commands">
+    <h1>Commands</h1>
+    <p>The command prefix is <b>></b>.</p>
+    <br>
+    <table>
+        <tr>
+            <th>command</th>
+            <th>description</th>
+        </tr>
+        <tr>
+            <td>help</td>
+            <td>Displays the help command. <a class="collapse" data-toggles="1">Expand</a> </td>
+        </tr>
+        <tr class="hidden" data-section="1">
+            <td></td>
+            <td>Usage: <span class="monospaced">>help</span> </td>
+        </tr>
+        <tr>
+            <td>trivia</td>
+            <td>asks you a trivia question</td>
+        </tr>
+    </table>
+</div>
+
+<div class="section right">
+    <h1>Contibutors</h1>
+    <p>manic #5170 (developer) - <a href="https://github.com/mninc" target="_blank">GitHub</a></p>
+    <p>sayersauce #4319 (developer) - <a href="https://github.com/sayersauce" target="_blank">GitHub</a></p>
+    <p>Alec #9598 (artist)</p>
+</div>
+
+<div class="section">
+    <h1>Installation instructions</h1>
+    <h2>Set up the bot</h2>
+    <ul>
+        <li>Download Python 3.6+</li>
+        <li>Clone the repository: <span class="monospaced">git clone https://github.com/mninc/ludus.git</span></li>
+        <li>Fill in the config file (see below)</li>
+        <li>Install packages necessary packages using pip: <span class="monospaced">pip3 install discord.py praw pillow</span>. (pip not installed? Do <span class="monospaced">sudo apt install python3-pip</span>) </li>
+        <li>Run main.py: <span class="monospaced">python3 main.py</span></li>
+    </ul>
+    <h2>Config file</h2>
+    <p>You need to make a config file to run the bot. Fill in <a href="https://github.com/mninc/ludus/blob/master/config_example.json" target="_blank">config_example.json</a> with the following details and rename it to config.json before running the bot for the first time.</p>
+    <ul>
+        <li><b>token</b> - discord bot token. If you don't already have one, you can create one <a href="https://discordapp.com/developers/applications/" target="_blank">here</a></li>
+        <li><b>prefix</b> - discord bot command prefix</li>
+        <li><b>reddit_id</b> - reddit application id. You can create one <a href="https://www.reddit.com/prefs/apps" target="_blank">here</a>. You must select 'script' to make it a script application</li>
+        <li><b>reddit_secret</b> - reddit application secret</li>
+        <li><b>reddit_user_agent</b> - the user agent reddit will see when a query is made to their api. Changing this will not affect the functionality of the bot</li>
+        <li><b>imgflip_username</b> - username to an imgflip account</li>
+        <li><b>imgflip_password</b> - password to that imgflip account</li>
+        <li><b>youtube_api_key</b> - api key to access the youtube APIs. Go to the <a href="https://console.developers.google.com/apis/api/youtube.googleapis.com/overview" target="_blank">Google Developer Console</a>, create a project, enable YouTube Data API v3 and create an API key</li>
+
+    </ul>
+</div>
+
+<script src="js/index.js"></script>
+
 </body>
-
 </html>

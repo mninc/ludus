@@ -27,32 +27,32 @@ async def render_board(ctx, board):
             if counter != "none":
                 our_positions.append(positions[i])
             if counter == "b_rook":
-                pieces.append("black_rook.png")
+                pieces.append("chess/black_rook.png")
             elif counter == "b_knight":
-                pieces.append("black_knight.png")
+                pieces.append("chess/black_knight.png")
             elif counter == "b_bishop":
-                pieces.append("black_bishop.png")
+                pieces.append("chess/black_bishop.png")
             elif counter == "b_queen":
-                pieces.append("black_queen.png")
+                pieces.append("chess/black_queen.png")
             elif counter == "b_king":
-                pieces.append("black_king.png")
+                pieces.append("chess/black_king.png")
             elif counter == "b_pawn":
-                pieces.append("black_pawn.png")
+                pieces.append("chess/black_pawn.png")
             if counter == "w_rook":
-                pieces.append("white_rook.png")
+                pieces.append("chess/white_rook.png")
             elif counter == "w_knight":
-                pieces.append("white_knight.png")
+                pieces.append("chess/white_knight.png")
             elif counter == "w_bishop":
-                pieces.append("white_bishop.png")
+                pieces.append("chess/white_bishop.png")
             elif counter == "w_queen":
-                pieces.append("white_queen.png")
+                pieces.append("chess/white_queen.png")
             elif counter == "w_king":
-                pieces.append("white_king.png")
+                pieces.append("chess/white_king.png")
             elif counter == "w_pawn":
-                pieces.append("white_pawn.png")
+                pieces.append("chess/white_pawn.png")
             i += 1
     
-    return await add_images(ctx, 'chessboard.png', pieces, our_positions, centre=True)
+    return await add_images(ctx, 'chess/chessboard.png', pieces, our_positions, centre=True)
 
 
 async def other_player(player, players):

@@ -198,7 +198,7 @@ def init(bot, data):
                 await user.send("Please message the position you want your " + ship + " (length: " + str(length) +
                                 ") to start (eg B3)")
                 while True:
-                    position = await get_reply(ctx, 30, user=user)
+                    position = await get_reply(ctx, 60, user=user)
                     if not position:
                         await user.send("You took too long to reply, the game has been cancelled.")
                         await message_other(i, players, user.display_name +
@@ -218,7 +218,7 @@ def init(bot, data):
                 await user.send("Where do you want your ship to finish? It must be one of these positions: " +
                                 ", ".join(possible_next))
                 while True:
-                    position = await get_reply(ctx, 30, user=user)
+                    position = await get_reply(ctx, 60, user=user)
                     if not position:
                         await user.send("You took too long to reply, the game has been cancelled.")
                         await message_other(i, players, user.display_name +
@@ -247,7 +247,7 @@ def init(bot, data):
                 await user.send("Where do you want to attack?")
 
                 while True:
-                    position = await get_reply(ctx, 30, user=user)
+                    position = await get_reply(ctx, 60, user=user)
                     if not position:
                         await user.send("You took too long to reply, the game has been cancelled.")
                         await message_other(i, players, user.display_name +

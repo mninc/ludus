@@ -25,12 +25,12 @@ async def render_board(ctx, board):
             if counter == "red" or counter == "yellow":
                 our_positions.append(positions[i])
             if counter == "red":
-                counters.append("connect4_red.png")
+                counters.append("connect4/red.png")
             elif counter == "yellow":
-                counters.append("connect4_yellow.png")
+                counters.append("connect4/yellow.png")
             i += 1
     
-    return await add_images(ctx, 'connect4_board.png', counters, our_positions)
+    return await add_images(ctx, 'connect4/board.png', counters, our_positions)
 
 
 async def check_board_vertical(board):

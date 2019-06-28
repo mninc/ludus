@@ -6,14 +6,14 @@ from util.score import won
 
 
 positions = []
-x = 115
-y = 105
+x = 61
+y = 61
 for _ in range(3):
     for _ in range(3):
-        positions.append((x + 11, y + 11))
-        y += 100
-    y = 105
-    x += 100
+        positions.append((x, y))
+        y += 60
+    y = 61
+    x += 60
 blank_board = [["none" for _ in range(3)] for _ in range(3)]
 letters = "ABC"
 
@@ -27,10 +27,10 @@ async def render_board(ctx, board):
             square = board[x][y]
             if square != "none":
                 our_positions.append(positions[i])
-                pieces.append(square + ".png")
+                pieces.append("tictactoe/" + square + ".png")
             i += 1
     
-    return await add_images(ctx, 'tictactoe.png', pieces, our_positions)
+    return await add_images(ctx, 'tictactoe/board.png', pieces, our_positions)
 
 
 async def get_xy(string):
@@ -57,6 +57,14 @@ async def check_winner(board):
     if board[0][2] == board[1][1] == board[2][0] != "none":
         return True
     return False
+
+
+async def check_draw(board):
+    for x in range(3):
+        for y in range(3):
+            if board[x][y] == "none":
+                return False
+    return True
 
 
 def init(bot, data):
@@ -109,4 +117,8 @@ def init(bot, data):
                     await render_board(ctx, board)
                     score = await won(player, data)
                     await ctx.send("GG! " + player.mention + " wins! Their score increased by " + str(score) + ".")
+                    return
+                elif await check_draw(board):
+                    await render_board(ctx, board)
+                    await ctx.send("It's a draw. Why not play again?")
                     return
