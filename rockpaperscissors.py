@@ -3,6 +3,7 @@ import discord
 
 
 async def ask_players(ctx, players):
+    # getting responses from the two players for rock paper or scissors
     choices = []
     for num, player in enumerate(players):
         # 3 times to enter either rock paper or scissors
@@ -25,11 +26,13 @@ async def ask_players(ctx, players):
 
 
 async def send_users(players, text):
+    # simple function to send a message to players
     for player in players:
         await player.send(text)
 
 
 async def check(ctx, choices, players):
+    # checks if a user has won, if so return True
     if choices[0] == choices[1]:
         return False
     elif (choices[0] == "rock" and choices[1] == "scissors") or (choices[0] == "paper" and choices[1] == "rock")\
