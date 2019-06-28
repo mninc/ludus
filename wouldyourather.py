@@ -60,15 +60,13 @@ def init(bot, data):
             else:
                 if user in reacted_users:
                     continue
-                async with ctx.typing():
-                    reacted_users.append(user)
-                    if reaction.emoji == numbers.one:
-                        index = 0
-                    else:
-                        index = 1
-                    
-                    our_data[single_title][index] += 1
-                    total = our_data[single_title][0] + our_data[single_title][1]
-                    percentage = round((our_data[single_title][index] / total) * 100, 2)
-                    await image.centre_image(ctx, wrap(user.display_name + ", " + str(percentage) + "% agreed with you",
-                                                       20), "scroll.png", 40, (0, 0, 0))
+                reacted_users.append(user)
+                if reaction.emoji == numbers.one:
+                    index = 0
+                else:
+                    index = 1
+                
+                our_data[single_title][index] += 1
+                total = our_data[single_title][0] + our_data[single_title][1]
+                percentage = round((our_data[single_title][index] / total) * 100, 2)
+                await ctx.send(user.mention + ", " + str(percentage) + "% agreed with you")
