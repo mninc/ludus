@@ -48,7 +48,8 @@ def init(bot, data):
         await asyncio.sleep(0.1)
         
         def check(emote, user):
-            return not user.bot and (emote.emoji == numbers.one or emote.emoji == numbers.two)
+            return not user.bot and emote.message == message and \
+                   (emote.emoji == numbers.one or emote.emoji == numbers.two)
         
         start_time = time()
         reacted_users = []
@@ -70,4 +71,3 @@ def init(bot, data):
                 total = our_data[single_title][0] + our_data[single_title][1]
                 percentage = round((our_data[single_title][index] / total) * 100, 2)
                 await ctx.send(user.mention + ", " + str(percentage) + "% agreed with you")
-                await asyncio.sleep(0.2)
