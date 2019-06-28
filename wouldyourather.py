@@ -48,7 +48,7 @@ def init(bot, data):
         await asyncio.sleep(0.1)
         
         def check(emote, user):
-            return emote.emoji == numbers.one or emote.emoji == numbers.two
+            return not user.bot and (emote.emoji == numbers.one or emote.emoji == numbers.two)
         
         start_time = time()
         reacted_users = []
