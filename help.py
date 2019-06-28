@@ -2,7 +2,6 @@ import discord
 
 
 def init(bot, data):
-    return
     bot.remove_command("help")
     @bot.command()
     async def help(ctx):
