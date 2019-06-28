@@ -6,29 +6,38 @@ async def ask_players(ctx, players):
     choices = []
     for num, player in enumerate(players):
         # 3 times to enter either rock paper or scissors
+        if num == 0:
+            await players[1].send(player.display_name + " is choosing. You will choose after.")
+        else:
+            await players[0].send(player.display_name + " is choosing. Please wait.")
         for i in range(3):
             await player.send("Please choose either `rock`, `paper` or `scissors` and reply here with one.")
             message = await get_reply(ctx, 30, user=player)
             if message:
-                if message.content == "rock" or message.content == "scissors" or message.content == "paper":
-                    choices.append(message.content)
+                content = message.content.lower()
+                if content == "rock" or content == "scissors" or content == "paper":
+                    choices.append(content)
                     break
-            if i == "2" and not choices[num]:
-                await ctx.send(player.mention + " failed to enter either `rock`, `paper` or `scissors`.")
+            if i == 2:
+                await ctx.send(player.mention + " failed to enter either `rock`, `paper` or `scissors`. What a dummy!")
                 return
     return choices
 
 
+async def send_users(players, text):
+    for player in players:
+        await player.send(text)
+
+
 async def check(ctx, choices, players):
     if choices[0] == choices[1]:
-        await ctx.send("Tie, both " + players[0].mention + " and " + players[1].mention + " chose " + choices[0])
         return False
     elif (choices[0] == "rock" and choices[1] == "scissors") or (choices[0] == "paper" and choices[1] == "rock")\
             or (choices[0] == "scissors" and choices[1] == "paper"):
-        await ctx.send(players[0].mention + " has won with " + choices[0])
+        await ctx.send(players[0].mention + " has won rock, paper, scissors with " + choices[0] + ".")
         return True
     else:
-        await ctx.send(players[1].mention + " has won with " + choices[1])
+        await ctx.send(players[1].mention + " has won rock, paper, scissors with " + choices[1] + ".")
         return True
 
 
@@ -51,6 +60,6 @@ def init(bot, data):
                         if finished:
                             break
                         else:
-                            await ctx.send("Restarting the game.")
+                            await send_users(players, "Tie! You bot chose " + choices[0] + ".\nRestarting game.")
                     else:
                         break
