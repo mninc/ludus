@@ -32,40 +32,40 @@ async def compare_snakes(ctx, snakes, players, category):
             await send_players(players, "Both snakes have equal speeds, no snake is damaged.")
         elif snake1.speed > snake2.speed:
             snake2.hp -= 1
-            await send_players(players, snake2.user.name + "'s snake has been damaged its health is " + str(snake2.hp))
+            await send_players(players, snake2.user.name + "'s snake has been damaged, its health is " + str(snake2.hp))
         else:
             snake1.hp -= 1
-            await send_players(players, snake1.user.name + "'s snake has been damaged its health is " + str(snake1.hp))
+            await send_players(players, snake1.user.name + "'s snake has been damaged, its health is " + str(snake1.hp))
     elif category == "Intimidation":
         await send_players(players, "The snakes try to intimidate each other!")
         if snake1.intimidation == snake2.intimidation:
             await send_players(players, "Both snakes are equally intimidated, no snake is damaged.")
         elif snake1.intimidation > snake2.intimidation:
             snake2.hp -= 1
-            await send_players(players, snake2.user.name + "'s snake has been damaged its health is " + str(snake2.hp))
+            await send_players(players, snake2.user.name + "'s snake has been damaged, its health is " + str(snake2.hp))
         else:
             snake1.hp -= 1
-            await send_players(players, snake1.user.name + "'s snake has been damaged its health is " + str(snake1.hp))
+            await send_players(players, snake1.user.name + "'s snake has been damaged, its health is " + str(snake1.hp))
     elif category == "Length":
         await send_players(players, "Which snake is longer?")
         if snake1.length == snake2.length:
             await send_players(players, "Both snakes are equally long, no snake is damaged.")
         elif snake1.length > snake2.length:
             snake2.hp -= 1
-            await send_players(players, snake2.user.name + "'s snake has been damaged its health is " + str(snake2.hp))
+            await send_players(players, snake2.user.name + "'s snake has been damaged, its health is " + str(snake2.hp))
         else:
             snake1.hp -= 1
-            await send_players(players, snake1.user.name + "'s snake has been damaged its health is " + str(snake1.hp))
+            await send_players(players, snake1.user.name + "'s snake has been damaged, its health is " + str(snake1.hp))
     elif category == "Scales":
         await send_players(players, "The snakes will be judged on their scales.")
         if snake1.scales == snake2.scales:
             await send_players(players, "Both snakes look equally cool, no snake is damaged.")
         elif snake1.scales > snake2.scales:
             snake2.hp -= 1
-            await send_players(players, snake2.user.name + "'s snake has been damaged its health is " + str(snake2.hp))
+            await send_players(players, snake2.user.name + "'s snake has been damaged, its health is " + str(snake2.hp))
         else:
             snake1.hp -= 1
-            await send_players(players, snake1.user.name + "'s snake has been damaged its health is " + str(snake1.hp))
+            await send_players(players, snake1.user.name + "'s snake has been damaged, its health is " + str(snake1.hp))
     elif category == "Damage":
         await send_players(players, "The snakes will be judged on combat skills. Combat is particularly dangerous, losing will reduce your snake's hp by 2 points.")
         if snake1.damage == snake2.damage:
@@ -75,13 +75,13 @@ async def compare_snakes(ctx, snakes, players, category):
                 snake2.hp -= 2
             else:
                 snake2.hp -= 1
-            await send_players(players, snake2.user.name + "'s snake has been damaged it's health is " + str(snake2.hp))
+            await send_players(players, snake2.user.name + "'s snake has been damaged, it's health is " + str(snake2.hp))
         else:
             if snake1.hp > 1:
                 snake1.hp -= 2
             else:
                 snake1.hp -= 1
-            await send_players(players, snake1.user.name + "'s snake has been damaged it's health is " + str(snake1.hp))
+            await send_players(players, snake1.user.name + "'s snake has been damaged, it's health is " + str(snake1.hp))
     if snake1.hp < 1:
         await send_players(players, snake1.user.name + "'s snake has fallen.")
         await ctx.send(snake2.user.mention + " has won the game!")
@@ -131,6 +131,9 @@ async def ask_players(ctx, players, snakes=None):
     newSnakes = []
     # to message player 2
     for num, player in enumerate(players):
+        if num == 0:
+            await players[1].send(players[0].mention +
+                                  " is selecting their stats, you will be able to once they are finished.")
         pointsLeft = 5
         categories = ["Speed", "Intimidation", "Length", "Scales", "Damage"]
         if snakes:
@@ -185,8 +188,6 @@ def init(bot, data):
                 return
             else:
                 players = [ctx.author, user]
-                await players[1].send(players[0].mention +
-                                      " is selecting their stats, you will be able to once they are finished.")
                 await send_players(players, "Snakes have 5 categories (`speed`, `intimidation`, `length`, `scales` and `damage`). You have 15 points on all categories each round.")
                 first = True
                 snakes = None
