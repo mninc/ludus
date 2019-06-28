@@ -34,6 +34,10 @@ a {
     margin-right: 25px;
 }
 
+#title-text h1{
+    font-size: 100px;
+}
+
 #header {
     height: 90vh;
     display: flex;

@@ -12,3 +12,4 @@ def init(bot, data):
             else:
                 message += char
         await ctx.send(message)
+        await ctx.message.delete()
