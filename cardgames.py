@@ -8,7 +8,7 @@ def init(bot, data):
     async def blackjack(ctx):
         # add image to show black jack start
         await ctx.send("Black Jack started by " + ctx.author.mention + " (high aces).")
-        await ctx.send("Type `blackjack join` to join the game (max 5).")
+        await ctx.send("Type `blackjack join` to join the game (max 5). \n" + ctx.author.mention + " type `start` to begin.)
 
         players = [ctx.author]
         quitting = False
