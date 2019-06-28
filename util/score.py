@@ -20,4 +20,4 @@ async def get_highest(ctx, data):
     for user, score in highest:
         u = ctx.bot.get_user(int(user))
         text.append(u.display_name + ": " + str(score) + " points")
-    await centre_image(ctx, text, "scroll_large.png", 30, (0, 0, 0,))
+    await centre_image(ctx, text, "scroll_large.png", 30, (0, 0, 0))

@@ -10,6 +10,8 @@ async def get_meme(ctx, subreddit):
         thread = choice(threads)
         if not thread.url or thread.over_18:
             continue
+        if "imgur.com" in thread.url and "i.imgur.com" not in thread.url:
+            thread.url += ".png"
         embed = discord.Embed(title=thread.title,
                               url="https://www.reddit.com" + thread.permalink,
                               colour=0xffffff)

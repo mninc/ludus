@@ -67,8 +67,11 @@ table {
 
 th {
     border-bottom: 1px solid white;
-    padding-right: 50px;
     text-align: left;
+}
+
+td {
+    padding-right: 50px;
 }
 
 .collapse {
@@ -79,6 +82,6 @@ th {
     display: none;
 }
 
-.hidden td {
+.padding td {
     padding-bottom: 10px;
 }
