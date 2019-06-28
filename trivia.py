@@ -61,7 +61,6 @@ def init(bot, data):
                         for string in wrapped:
                             text.append(string)
                     message = await centre_image(ctx, text, "scroll_large.png", 40, (0, 0, 0))
-        print(question["correct_answer"])
         await message.add_reaction(numbers.one)
         await message.add_reaction(numbers.two)
         await message.add_reaction(numbers.three)

@@ -45,23 +45,347 @@
             <th>command</th>
             <th>description</th>
         </tr>
+
         <tr>
             <td>help</td>
-            <td>Displays the help command. <a class="collapse" data-toggles="1">Expand</a> </td>
+            <td>Displays the help command. <a class="collapse" data-toggles="1">Expand</a></td>
         </tr>
-        <tr class="hidden" data-section="1">
+        <tr class="hidden padding" data-section="1">
             <td></td>
             <td>Usage: <span class="monospaced">>help</span> </td>
         </tr>
+
+        <tr>
+            <td>meme</td>
+            <td>Shows a meme. <a class="collapse" data-toggles="2">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="2">
+            <td></td>
+            <td>This command grabs a meme from /r/memes. You can also get memes from /r/dankmemes, /r/historymemes, /r/prequelmemes or /r/comedyheaven or /r/me_irl.</td>
+        </tr>
+        <tr class="hidden" data-section="2">
+            <td></td>
+            <td>Usage: <span class="monospaced">>meme</span>, <span class="monospaced">>dankmeme</span>, <span class="monospaced">>historymeme</span>, <span class="monospaced">>prequelmeme</span>, <span class="monospaced">>comedyheaven</span> or <span class="monospaced">>me_irl</span> </td>
+        </tr>
+        <tr class="hidden" data-section="2">
+            <td></td>
+            <td><img src="img/meme.png" alt="meme"></td>
+        </tr>
+
+        <tr>
+            <td>joke</td>
+            <td>Tells a joke. <a class="collapse" data-toggles="3">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="3">
+            <td></td>
+            <td>This command grabs a joke from /r/jokes. You can also get jokes from /r/dirtyjokes, /r/cleanjokes or /r/antijokes.</td>
+        </tr>
+        <tr class="hidden" data-section="3">
+            <td></td>
+            <td>Usage: <span class="monospaced">>joke</span>, <span class="monospaced">>dirtyjoke</span>, <span class="monospaced">>cleanjoke</span> or <span class="monospaced">>antijoke</span></td>
+        </tr>
+        <tr class="hidden padding" data-section="3">
+            <td></td>
+            <td><img src="img/joke.png" alt="joke"></td>
+        </tr>
+
+        <tr>
+            <td>comic</td>
+            <td>Sends a comic. <a class="collapse" data-toggles="4">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="4">
+            <td></td>
+            <td>This command grabs a comic from /r/comics. You can also get a comic from /r/webcomics.</td>
+        </tr>
+        <tr class="hidden" data-section="4">
+            <td></td>
+            <td>Usage: <span class="monospaced">>comic</span> or <span class="monospaced">>webcomic</span></td>
+        </tr>
+        <tr class="hidden padding" data-section="4">
+            <td></td>
+            <td><img src="img/comic.png" alt="comic"></td>
+        </tr>
+
+        <tr>
+            <td>hangman</td>
+            <td>Play hangman. <a class="collapse" data-toggles="5">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="5">
+            <td></td>
+            <td>Usage: <span class="monospaced">>hangman</span> to play hangman with a random word or <span class="monospaced">>hangman [user]</span> to play with a word picked by that user</td>
+        </tr>
+        <tr class="hidden padding" data-section="5">
+            <td></td>
+            <td><img src="img/hangman.png" alt="hangman"></td>
+        </tr>
+
+        <tr>
+            <td>chess</td>
+            <td>Play chess. <a class="collapse" data-toggles="6">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="6">
+            <td></td>
+            <td>Usage: <span class="monospaced">>chess [user]</span> to play chess with the specified user</td>
+        </tr>
+        <tr class="hidden padding" data-section="6">
+            <td></td>
+            <td><img src="img/chess.png" alt="chess"></td>
+        </tr>
+
+        <tr>
+            <td>battleships</td>
+            <td>Play battleships. <a class="collapse" data-toggles="7">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="7">
+            <td></td>
+            <td>Usage: <span class="monospaced">>battleships [user]</span> to play battleships with the specified user</td>
+        </tr>
+        <tr class="hidden" data-section="7">
+            <td></td>
+            <td><img src="img/battleships1.png" alt="battleships 1"></td>
+        </tr>
+        <tr class="hidden padding" data-section="7">
+            <td></td>
+            <td><img src="img/battleships2.png" alt="battleships 2"></td>
+        </tr>
+
+        <tr>
+            <td>connect4</td>
+            <td>Play connect 4. <a class="collapse" data-toggles="8">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="8">
+            <td></td>
+            <td>Usage: <span class="monospaced">>connect4</span> to play connect 4 against the bot or <span class="monospaced">>connect4 [user]</span> to play connect 4 with the specified user</td>
+        </tr>
+        <tr class="hidden padding" data-section="8">
+            <td></td>
+            <td><img src="img/connect4.png" alt="connect 4"></td>
+        </tr>
+
         <tr>
             <td>trivia</td>
-            <td>asks you a trivia question</td>
+            <td>Answer a trivia question. <a class="collapse" data-toggles="9">Expand</a></td>
         </tr>
+        <tr class="hidden" data-section="9">
+            <td></td>
+            <td>Usage: <span class="monospaced">>trivia</span> or <span class="monospaced">>trivia [category]</span> to get a trivia question. Defaults to the video games category. Do <span class="monospaced">>trivia categories</span> to see the list of categories available. You can react to the question and the bot will tell you if you are correct or incorrect.</td>
+        </tr>
+        <tr class="hidden" data-section="9">
+            <td></td>
+            <td><img src="img/trivia1.png" alt="trivia 1"></td>
+        </tr>
+        <tr class="hidden" data-section="9">
+            <td></td>
+            <td><img src="img/trivia2.png" alt="trivia 2"></td>
+        </tr>
+        <tr class="hidden padding" data-section="9">
+            <td></td>
+            <td><img src="img/trivia3.png" alt="trivia 3"></td>
+        </tr>
+
+        <tr>
+            <td>rockpaperscissors</td>
+            <td>Play rock, paper scissors. <a class="collapse" data-toggles="10">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="10">
+            <td></td>
+            <td>Usage: <span class="monospaced">>rockpaperscissors [user]</span> or <span class="monospaced">>rps [user]</span> to play against the specified user.</td>
+        </tr>
+        <tr class="hidden" data-section="10">
+            <td></td>
+            <td><img src="img/rps1.png" alt="rock paper scissors 1"></td>
+        </tr>
+        <tr class="hidden" data-section="10">
+            <td></td>
+            <td><img src="img/rps2.png" alt="rock paper scissors 3"></td>
+        </tr>
+        <tr class="hidden padding" data-section="10">
+            <td></td>
+            <td><img src="img/rps3.png" alt="rock paper scissors 3"></td>
+        </tr>
+
+        <tr>
+            <td>wouldyourather</td>
+            <td>Get asked a would you rather question, fetched from /r/wouldyourather. <a class="collapse" data-toggles="11">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="11">
+            <td></td>
+            <td>Usage: <span class="monospaced">>wouldyourather</span> to get a question. React to the message and see the percentage of other users that agreed with you.</td>
+        </tr>
+        <tr class="hidden padding" data-section="11">
+            <td></td>
+            <td><img src="img/wouldyourather.png" alt="would you rather 1"></td>
+        </tr>
+
+        <tr>
+            <td>makememe</td>
+            <td>Make your own meme! <a class="collapse" data-toggles="12">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="12">
+            <td></td>
+            <td>Uses <a href="https://imgflip.com" target="_blank">imgflip</a> to let you make your own meme. Usage: <span class="monospaced">>makememe formats</span> to see all the formats available. <span class="monospaced">>makememe [format] [line one] [line two]</span> to make a meme, specifying the format and bot lines of text to put on the meme. Multi-word lines must be enclosed within quotes (" ").</td>
+        </tr>
+        <tr class="hidden" data-section="12">
+            <td></td>
+            <td><img src="img/makememe1.png" alt="make meme 1"></td>
+        </tr>
+        <tr class="hidden padding" data-section="12">
+            <td></td>
+            <td><img src="img/makememe2.png" alt="make meme 2"></td>
+        </tr>
+
+        <tr>
+            <td>trending</td>
+            <td>Fetch a YouTube video of the trending page. <a class="collapse" data-toggles="13">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="13">
+            <td></td>
+            <td>Usage: <span class="monospaced">>trending</span> to get a video from the American trending page. Do <span class="monospaced">>trending [country code]</span> to fetch videos from the specified country.</td>
+        </tr>
+        <tr class="hidden" data-section="13">
+            <td></td>
+            <td><img src="img/trending1.png" alt="trending 1"></td>
+        </tr>
+        <tr class="hidden padding" data-section="13">
+            <td></td>
+            <td><img src="img/trending2.png" alt="trending 2"></td>
+        </tr>
+
+        <tr>
+            <td>youtube</td>
+            <td>Search for a YouTube video. <a class="collapse" data-toggles="14">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="14">
+            <td></td>
+            <td>Usage: <span class="monospaced">>youtube [search term]</span> to search for that video.</td>
+        </tr>
+        <tr class="hidden padding" data-section="14">
+            <td></td>
+            <td><img src="img/youtube.png" alt="youtube"></td>
+        </tr>
+
+        <tr>
+            <td>tictactoe</td>
+            <td>Play tic tac toe. <a class="collapse" data-toggles="20">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="20">
+            <td></td>
+            <td>Usage: <span class="monospaced">>tictactoe [user]</span> or <span class="monospaced">>ttt [user]</span> to play tic tac toe with the specified user.</td>
+        </tr>
+        <tr class="hidden padding" data-section="20">
+            <td></td>
+            <td><img src="img/tictactoe.png" alt="tic tac toe"></td>
+        </tr>
+
+        <tr>
+            <td>emojistring</td>
+            <td>Turns the text into emojis. <a class="collapse" data-toggles="19">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="19">
+            <td></td>
+            <td>Usage: <span class="monospaced">>emojistring [text]</span> or <span class="monospaced">>emojitext [text]</span></td>
+        </tr>
+        <tr class="hidden padding" data-section="19">
+            <td></td>
+            <td><img src="img/emojistring.png" alt="emoji string"></td>
+        </tr>
+
+        <tr>
+            <td>score</td>
+            <td>Displays your score. <a class="collapse" data-toggles="21">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="21">
+            <td></td>
+            <td>Every time you win a game your score increases. Usage: <span class="monospaced">>score</span> to display your score.</td>
+        </tr>
+        <tr class="hidden padding" data-section="21">
+            <td></td>
+            <td><img src="img/score.png" alt="score"></td>
+        </tr>
+
+        <tr>
+            <td>leaderboard</td>
+            <td>Displays up to 10 users with the highest scores. <a class="collapse" data-toggles="22">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="22">
+            <td></td>
+            <td>Usage: <span class="monospaced">>leaderboard</span> to display the current leaderboard.</td>
+        </tr>
+        <tr class="hidden padding" data-section="22">
+            <td></td>
+            <td><img src="img/leaderboard.png" alt="leaderboard"></td>
+        </tr>
+
+        <tr>
+            <td>website</td>
+            <td>Links to our website. <a class="collapse" data-toggles="15">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="15">
+            <td></td>
+            <td>Usage: <span class="monospaced">>website</span></td>
+        </tr>
+        <tr class="hidden padding" data-section="15">
+            <td></td>
+            <td><img src="img/website.png" alt="website"></td>
+        </tr>
+
+        <tr>
+            <td>add</td>
+            <td>Gives a link to add the bot to your server. <a class="collapse" data-toggles="16">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="16">
+            <td></td>
+            <td>Usage: <span class="monospaced">>add</span></td>
+        </tr>
+        <tr class="hidden padding" data-section="16">
+            <td></td>
+            <td><img src="img/add.png" alt="add"></td>
+        </tr>
+
+        <tr>
+            <td>server</td>
+            <td>Gives a link to the <a href="https://discord.gg/qZQN53p" target="_blank">official Ludus discord server</a>. <a class="collapse" data-toggles="17">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="17">
+            <td></td>
+            <td>Usage: <span class="monospaced">>server</span></td>
+        </tr>
+        <tr class="hidden padding" data-section="17">
+            <td></td>
+            <td><img src="img/server.png" alt="server"></td>
+        </tr>
+
+        <tr>
+            <td>github</td>
+            <td>Gives a link to the <a href="https://github.com/mninc/ludus" target="_blank">github</a>. <a class="collapse" data-toggles="18">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="18">
+            <td></td>
+            <td>Usage: <span class="monospaced">>github</span></td>
+        </tr>
+        <tr class="hidden padding" data-section="18">
+            <td></td>
+            <td><img src="img/github.png" alt="github"></td>
+        </tr>
+
+        <tr>
+            <td>contributors</td>
+            <td>Displays the <a href="#contributors">contributors</a>. <a class="collapse" data-toggles="23">Expand</a></td>
+        </tr>
+        <tr class="hidden" data-section="23">
+            <td></td>
+            <td>Usage: <span class="monospaced">>contributors</span> to display the contributors.</td>
+        </tr>
+        <tr class="hidden padding" data-section="23">
+            <td></td>
+            <td><img src="img/contributors.png" alt="contributors"></td>
+        </tr>
+
     </table>
 </div>
 
 <div class="section right">
-    <h1>Contibutors</h1>
+    <h1 id="contributors">Contibutors</h1>
     <p>manic #5170 (developer) - <a href="https://github.com/mninc" target="_blank">GitHub</a></p>
     <p>sayersauce #4319 (developer) - <a href="https://github.com/sayersauce" target="_blank">GitHub</a></p>
     <p>Alec #9598 (artist)</p>
