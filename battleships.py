@@ -6,6 +6,7 @@ from util.score import won
 from random import choice
 
 
+# image positions on "real" board (your board)
 real_positions = []
 x = 115
 y = 95
@@ -15,6 +16,8 @@ for _ in range(10):
         y += 100
     y = 95
     x += 100
+
+# image positions on pegboard (their board)
 pegboard_positions = []
 x = 120
 y = 90
@@ -24,6 +27,7 @@ for _ in range(10):
         y += 120
     y = 90
     x += 120
+
 blank_board = [["none" for _ in range(10)] for _ in range(10)]
 letters = "ABCDEFGHIJ"
 ships = {
@@ -44,6 +48,7 @@ async def render_real(user, board):
     for x in range(10):
         for y in range(10):
             ship = board[x][y]
+            # work out which image to display, whether to rotate it and whether to put a fire image on top
             if ship != "none" and ship != "miss":
                 our_positions.append(real_positions[i])
                 if "_hit" in ship:
@@ -74,6 +79,7 @@ async def render_pegboard(user, board):
     for x in range(10):
         for y in range(10):
             ship = board[x][y]
+            # work out which image to display
             if ship == "miss":
                 pieces.append("battleships/miss.png")
                 our_positions.append(pegboard_positions[i])
@@ -86,6 +92,7 @@ async def render_pegboard(user, board):
 
 
 async def message_other(player_number, players, message):
+    # message the other player
     if player_number:
         await players[0][0].send(message)
     else:
@@ -93,6 +100,7 @@ async def message_other(player_number, players, message):
 
 
 async def get_xy(string):
+    # turn string (eg A4) into x, y co-ordinates
     if len(string) != 2 and len(string) != 3:
         return
     if string[0].upper() not in letters:
@@ -106,10 +114,13 @@ async def get_xy(string):
 
 
 async def xy_to_string(x, y):
+    # turn x, y co-ordinates into a string
     return letters[x] + str(y + 1)
 
 
 async def get_possible_ship_place_positions(length, position, board):
+    # when placing the ships at the start, work out where you can place the end of the ship relative to the starting
+    # position
     length -= 1
     possible = []
     if position[0] - length >= 0:
@@ -148,6 +159,7 @@ async def get_possible_ship_place_positions(length, position, board):
 
 
 async def add_ship_to_board(start, end, board, ship):
+    # using the start and end co-ordinates as well as the ship type to place the ship on the board
     if start[0] == end[0]:
         if start[1] > end[1]:
             temp = end[1]
@@ -169,6 +181,7 @@ async def add_ship_to_board(start, end, board, ship):
 
 
 async def get_other_board(player_number, players):
+    # return the other player's board
     if player_number:
         return players[0][1]
     else:
@@ -182,6 +195,8 @@ def init(bot, data):
                user.mention + ": " + ctx.author.display_name + \
                " has invited you to play battleships. Type 'play' to confirm."
         await ctx.send(text)
+        
+        # wait for the user to confirm
         message = await get_reply(ctx, 30, channel_user=user)
         if not message or message.content.lower() != "play":
             await ctx.send(ctx.author.mention + ": " + user.display_name + " did not confirm.")
@@ -191,19 +206,25 @@ def init(bot, data):
         for i, player in enumerate(players):
             user = player[0]
             board = player[1]
+            
             await message_other(i, players, user.display_name + " is placing their ships. Please wait.")
             await user.send("Let's place your ships!")
+            
             for ship, length in ships.items():
                 await render_real(user, board)
                 await user.send("Please message the position you want your " + ship + " (length: " + str(length) +
                                 ") to start (eg B3)")
+                
+                # get start position
                 while True:
                     position = await get_reply(ctx, 60, user=user)
+                    
                     if not position:
                         await user.send("You took too long to reply, the game has been cancelled.")
                         await message_other(i, players, user.display_name +
                                             " took too long to respond. The game has been cancelled.")
                         return
+                    
                     position = await get_xy(position.content)
                     if not position:
                         await user.send("That position is invalid. The position must be in the form LetterNumber" +
@@ -213,10 +234,13 @@ def init(bot, data):
                         await user.send("That space is occupied! Try again.")
                         continue
                     break
+                
                 start_position = position
                 possible_next = await get_possible_ship_place_positions(length, position, board)
                 await user.send("Where do you want your ship to finish? It must be one of these positions: " +
                                 ", ".join(possible_next))
+                
+                # get end position
                 while True:
                     position = await get_reply(ctx, 60, user=user)
                     if not position:
@@ -224,6 +248,7 @@ def init(bot, data):
                         await message_other(i, players, user.display_name +
                                             " took too long to respond. The game has been cancelled.")
                         return
+                    
                     position = position.content
                     if position.upper() not in possible_next:
                         await user.send("That position is invalid. It must be one of these positions: " +
@@ -232,20 +257,22 @@ def init(bot, data):
                     break
                 end_position = await get_xy(position)
                 await add_ship_to_board(start_position, end_position, board, ship)
-            
+        
+        # track how many ship pieces are left for each person to know when they are all sunk
         ship_pieces_left = [17, 17]
         while True:
             for i, player in enumerate(players):
                 user = player[0]
                 board = player[1]
-               
+                
                 await message_other(i, players, user.display_name + " is deciding where to attack.")
                 
                 other_board = await get_other_board(i, players)
                 await render_pegboard(user, other_board)
                 await render_real(user, board)
                 await user.send("Where do you want to attack?")
-
+                
+                # get where to attack
                 while True:
                     position = await get_reply(ctx, 60, user=user)
                     if not position:
@@ -260,7 +287,8 @@ def init(bot, data):
                                         " eg D6. Try again.")
                         continue
                     break
-
+                
+                # process shot
                 await message_other(i, players, user.display_name + " attacked " + position_str + ".")
                 hit = other_board[position[0]][position[1]]
                 if "unhit" in hit:
@@ -276,9 +304,11 @@ def init(bot, data):
                     await user.send("It's a miss.")
                     await message_other(i, players, "They missed.")
                 
+                # show updated board
                 await user.send("Updated board:")
                 await render_pegboard(user, other_board)
                 
+                # if the other person has no ships left
                 if ship_pieces_left[abs(i - 1)] == 0:
                     score = await won(user, data)
                     await user.send("You have sunk all their ships. You win! Your score increased by " +

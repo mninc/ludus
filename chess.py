@@ -6,6 +6,7 @@ from util.score import won
 
 letters = "ABCDEFGH"
 
+# image positions for chess pieces on grid
 positions = []
 x = 40
 y = 40
@@ -24,6 +25,7 @@ async def render_board(ctx, board):
     for x in range(8):
         for y in range(8):
             counter = board[x][y]
+            # work out what image to add
             if counter != "none":
                 our_positions.append(positions[i])
             if counter == "b_rook":
@@ -56,6 +58,7 @@ async def render_board(ctx, board):
 
 
 async def other_player(player, players):
+    # get other player
     if player:
         return players[0]
     else:
@@ -68,12 +71,15 @@ def init(bot, data):
         text = "Chess with a twist! No check or checkmate, just take your opponent's king.\n" + user.mention + ": " + \
                ctx.author.display_name + " has invited you to play chess. Type 'play' to confirm."
         await ctx.send(text)
+        
+        # get other player to confirm
         message = await get_reply(ctx, 30, channel_user=user)
         if not message or message.content.lower() != "play":
             await ctx.send(ctx.author.mention + ": " + user.display_name + " did not confirm.")
             return
         
         players = [ctx.author, user]
+        # default board
         board = [
             ["b_rook", "b_pawn", "none", "none", "none", "none", "w_pawn", "w_rook"],
             ["b_knight", "b_pawn", "none", "none", "none", "none", "w_pawn", "w_knight"],
@@ -99,21 +105,27 @@ def init(bot, data):
                     text += " You are white. "
                 text += "Write the tile to move a chess piece from and to, eg B1 C3"
                 await ctx.send(text)
+                
                 while True:
+                    # get their move
                     move = await get_reply(ctx, 120, channel_user=player)
                     if not move:
                         other = await other_player(player_number, players)
                         await ctx.send(other.mention + ": " + player.display_name + " failed to respond. You win!")
                         return
+                    
+                    # get x, y co-ordinates of their start and end position and check that it is valid
                     move = move.content.split(" ")
                     if len(move) != 2:
                         await ctx.send(player.mention + ": Please enter two tiles.")
                         continue
+                    
                     first = move[0].upper()
                     if len(first) != 2 or first[0] not in letters or not first[1].isdigit() or \
                             not 0 < int(first[1]) <= 8:
                         await ctx.send(player.mention + ": Invalid tile!")
                         continue
+                    
                     first_x = letters.index(first[0])
                     first_y = 8 - int(first[1])
                     if player_number:
@@ -134,6 +146,7 @@ def init(bot, data):
                     
                     piece = board[first_x][first_y][2:]
                     
+                    # check move relative to current piece
                     if piece == "pawn":
                         if player_number:
                             if second_y != first_y + 1:
@@ -359,6 +372,17 @@ def init(bot, data):
                                     continue
                                 board[first_x][first_y] = "none"
                                 board[second_x][second_y] = "w_rook"
+                    elif piece == "knight":
+                        if (abs(first_x - second_x) == 2 and abs(first_y - second_y)) == 1 or \
+                                (abs(first_x - second_x) == 1 and abs(first_y - second_y) == 2):
+                            board[first_x][first_y] = "none"
+                            if player_number:
+                                board[second_x][second_y] = "b_knight"
+                            else:
+                                board[second_x][second_y] = "w_knight"
+                        else:
+                            await ctx.send(player.mention + ": Invalid move!")
+                            continue
                     elif piece == "bishop":
                         if player_number:
                             if abs(first_x - second_x) != abs(first_y - second_y):
@@ -541,6 +565,7 @@ def init(bot, data):
                             board[first_x][first_y] = "none"
                             board[second_x][second_y] = "w_king"
                     
+                    # check if king is gone
                     found_king = False
                     for x in range(8):
                         for y in range(8):

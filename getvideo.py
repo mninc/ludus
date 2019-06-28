@@ -10,9 +10,12 @@ with open("config.json") as f:
 def init(bot, data):
     @bot.command()
     async def trending(ctx, country_code="US"):
+        # check country code
         if len(country_code) != 2:
             await ctx.send(ctx.author.mention + ": Country code must be two characters long!")
             return
+        
+        # get result from api
         async with aiohttp.ClientSession() as session:
             async with session.get("https://www.googleapis.com/youtube/v3/videos", params={
                 "part": "id",
@@ -27,6 +30,7 @@ def init(bot, data):
     
     @bot.command(aliases=["yt"])
     async def youtube(ctx, query):
+        # get result from api
         async with aiohttp.ClientSession() as session:
             async with session.get("https://www.googleapis.com/youtube/v3/search", params={
                 "part": "id",

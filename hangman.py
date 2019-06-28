@@ -7,11 +7,13 @@ import discord
 from copy import copy
 
 
+# load the list of words to use for hangman
 with open("hangman_words.txt") as f:
     words = f.read().split("\n")
 
-letter_position = []
 
+# positions for letters to go on the image
+letter_position = []
 x = 190
 y = 830
 for i in range(0, 26):
@@ -23,6 +25,7 @@ for i in range(0, 26):
 
 
 async def generate_image(ctx, letters, word, lives):
+    # centre the word
     letter_pos = copy(letter_position)
     y = 110
     if len(word) % 2 == 0:
@@ -32,10 +35,13 @@ async def generate_image(ctx, letters, word, lives):
     for _ in word:
         letter_pos.append((x, y))
         x += 40
+    
+    # make the image
     return await send_image(ctx, letters + word, "hangman/hangman" + str(11 - lives) + ".png", letter_pos, 40, (0, 0, 0))
 
 
 async def update_blank(word, current, character_guess):
+    # check if their guessed letter is in the string and reveal
     result = ""
     for i in range(len(word)):
         if word[i] == character_guess:
@@ -52,45 +58,60 @@ def init(bot, data):
             if user.bot:
                 ctx.send("You can't play against a bot!")
                 return
+            
+            # get word from specified user
             await ctx.send("Waiting for response from " + user.display_name + "...")
             await user.send("Choose a word for " + ctx.author.display_name + " to guess!")
+            
             reply = await get_reply(ctx, 60, user=user)
             if not reply:
                 await ctx.send(user.display_name + " took too long to respond.")
                 return
+            
             await user.send("Thank you!")
             word = reply.content
         else:
+            # pick a random word
             word = choice(words)
+        
+        # how the word looks like in the image (with unguessed characters hidden)
         word_displayed = "-" * len(word)
         letters = ascii_lowercase
         
+        # 10 lives as there are 10 stages
         lives = 10
         while word_displayed != word:
+            # display the image
             await generate_image(ctx, letters, word_displayed, lives)
-            if lives == 0:
+            
+            if lives == 0:  # game over
                 break
+            
             await ctx.send(ctx.author.mention + ": Guess a letter.")
             msg = await get_reply(ctx, 30)
             if not msg:
                 await ctx.send(ctx.author.mention + ": You took to long to reply!")
                 return
+            
             content = msg.content.lower()
             if len(content) != 1:
                 await ctx.send("One character only!")
                 continue
+            
             if content not in ascii_lowercase:
                 await ctx.send("Invalid character!")
                 continue
+            
             if content not in letters:
                 await ctx.send("You've already guessed that letter!")
                 continue
             
             old_word_displayed = word_displayed
             word_displayed = await update_blank(word, word_displayed, content)
-            if word_displayed == old_word_displayed:
+            if word_displayed == old_word_displayed:  # incorrect guess
                 lives -= 1
             letters = letters.replace(content, " ")
+        
         if lives == 0:
             await ctx.send(ctx.author.mention + " you are out of lives! Word was `" + word + "`. Why not try again?")
             return

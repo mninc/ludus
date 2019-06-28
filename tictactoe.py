@@ -5,6 +5,7 @@ from copy import deepcopy
 from util.score import won
 
 
+# positions to put the images
 positions = []
 x = 61
 y = 61
@@ -14,11 +15,15 @@ for _ in range(3):
         y += 60
     y = 61
     x += 60
+
+# what a blank board is
 blank_board = [["none" for _ in range(3)] for _ in range(3)]
+
 letters = "ABC"
 
 
 async def render_board(ctx, board):
+    # put images onto board
     our_positions = []
     pieces = []
     i = 0
@@ -34,6 +39,7 @@ async def render_board(ctx, board):
 
 
 async def get_xy(string):
+    # string (eg B2) to x, y co-ordinates
     if len(string) != 2:
         return
     if string[0].upper() not in letters:
@@ -46,6 +52,7 @@ async def get_xy(string):
 
 
 async def check_winner(board):
+    # check if a user has 3 in a row
     for x in range(3):
         if board[x][0] == board[x][1] == board[x][2] != "none":
             return True
@@ -60,6 +67,7 @@ async def check_winner(board):
 
 
 async def check_draw(board):
+    # check if the board is full and it is a draw
     for x in range(3):
         for y in range(3):
             if board[x][y] == "none":
@@ -71,11 +79,14 @@ def init(bot, data):
     @bot.command(aliases=["ttt", "tic_tac_toe"])
     async def tictactoe(ctx, user: discord.User):
         if user.bot:
-            await ctx.send("You can't play against a bot! Unless they're a selfbot.")
+            await ctx.send("You can't play against a bot!")
             return
+        
         text = "Tic tac toe!\n" + user.mention + ": " + ctx.author.display_name + \
                " has invited you to play tic tac toe. Type 'play' to confirm."
         await ctx.send(text)
+        
+        # wait for the user to confirm
         message = await get_reply(ctx, 30, channel_user=user)
         if not message or message.content.lower() != "play":
             await ctx.send(ctx.author.mention + ": " + user.display_name + " did not confirm.")
@@ -87,27 +98,34 @@ def init(bot, data):
         
         while True:
             for i, player in enumerate(players):
+                # show board
                 await render_board(ctx, board)
+                
                 text = player.mention + ": Pick a square to place a "
                 if i:
                     text += "nought."
                 else:
                     text += "cross."
                 await ctx.send(text)
+                
+                # get position
                 while True:
                     position = await get_reply(ctx, 30, channel_user=player)
                     if not position:
                         await ctx.send("You took too long to reply, the game has been cancelled.")
                         return
+                    
                     position = await get_xy(position.content)
                     if not position:
                         await ctx.send("That position is invalid. The position must be in the form LetterNumber" +
                                        " eg D6. Try again.")
                         continue
+                    
                     if board[position[0]][position[1]] != "none":
                         await ctx.send("That space is occupied! Try again.")
                         continue
                     break
+                
                 if i:
                     board[position[0]][position[1]] = "nought"
                 else:

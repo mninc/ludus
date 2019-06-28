@@ -4,6 +4,7 @@ from util.image import centre_image
 
 
 async def won(user, data):
+    # add some points to the user
     if "score" not in data:
         data["score"] = {}
     uid = user.id
@@ -15,6 +16,7 @@ async def won(user, data):
 
 
 async def get_highest(ctx, data):
+    # display the highest scoring users
     highest = list(reversed(sorted(data["score"].items(), key=operator.itemgetter(1))))[:10]
     text = ["Highest scores:"]
     for user, score in highest:

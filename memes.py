@@ -4,13 +4,14 @@ import discord
 
 
 async def get_meme(ctx, subreddit):
+    # get random thread in the newest posts in the subreddit and if it has an image, post it in an embed
     await ctx.trigger_typing()
     threads = list(reddit.subreddit(subreddit).new())
     while True:
         thread = choice(threads)
         if not thread.url or thread.over_18:
             continue
-        if "imgur.com" in thread.url and "i.imgur.com" not in thread.url:
+        if "imgur.com" in thread.url and "i.imgur.com" not in thread.url:  # deal with non-image imgur links
             thread.url += ".png"
         embed = discord.Embed(title=thread.title,
                               url="https://www.reddit.com" + thread.permalink,
@@ -21,6 +22,7 @@ async def get_meme(ctx, subreddit):
 
 
 async def get_joke(ctx, subreddit):
+    # get random thread in the newest posts in the subreddit and if it has a body, post it in an embed
     await ctx.trigger_typing()
     threads = list(reddit.subreddit(subreddit).new())
     while True:
@@ -71,7 +73,7 @@ def init(bot, data):
     @bot.command()
     async def cleanjoke(ctx):
         await get_joke(ctx, 'cleanjokes')
-
+    
     @bot.command()
     async def antijoke(ctx):
         await get_joke(ctx, 'antijokes')
@@ -84,4 +86,4 @@ def init(bot, data):
     async def comic(ctx):
         await get_meme(ctx, 'comics')
     
-    # can add many more
+    # could add many more

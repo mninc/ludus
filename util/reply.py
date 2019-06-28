@@ -3,7 +3,8 @@ import discord
 
 
 # if user is set, waits for dm from that user instead
-# if channel_user is set, waits for messages in ctx's channel from that user
+# if channel_user is set, waits for messages in that channel from that user
+# if any_user is set, waits for any message in that channel
 async def get_reply(ctx, timeout, user=None, channel_user=None, any_user=False):
     def check(m):
         if user:
