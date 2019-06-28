@@ -39,12 +39,12 @@ async def check_board_vertical(board):
     for x in range(7):
         for y in range(6):
             counter = board[x][y]
-            if counter == "yellow" or counter == "red" and previous == counter:
+            if (counter == "yellow" or counter == "red") and previous == counter:
                 previous_identical += 1
             else:
-                previous = "non"
                 previous_identical = 0
-            if previous_identical == 4:
+            previous = counter
+            if previous_identical == 3:
                 return True
         previous_identical = 0
     return False
@@ -56,12 +56,12 @@ async def check_board_horizontal(board):
     for y in range(6):
         for x in range(7):
             counter = board[x][y]
-            if counter == "yellow" or counter == "red" and previous == counter:
+            if (counter == "yellow" or counter == "red") and previous == counter:
                 previous_identical += 1
             else:
-                previous = "non"
                 previous_identical = 0
-            if previous_identical == 4:
+            previous = counter
+            if previous_identical == 3:
                 return True
         previous_identical = 0
     return False
