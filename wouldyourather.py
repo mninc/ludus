@@ -71,4 +71,4 @@ def init(bot, data):
                     total = our_data[single_title][0] + our_data[single_title][1]
                     percentage = round((our_data[single_title][index] / total) * 100, 2)
                     await image.centre_image(ctx, wrap(user.display_name + ", " + str(percentage) + "% agreed with you",
-                                                       20), "scroll.png", 40, (0, 0, 0), 0)
+                                                       20), "scroll.png", 40, (0, 0, 0))
