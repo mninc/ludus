@@ -6,7 +6,6 @@ import random
 def init(bot, data):
     @bot.command()
     async def blackjack(ctx):
-        # add image to show black jack start
         await ctx.send("Black Jack started by " + ctx.author.mention + " (high aces).")
         await ctx.send("Type `blackjack join` to join the game (max 5). \n" + ctx.author.mention +
                        " type `start` to begin.\nType `quit` at any point to end the game.")
@@ -37,6 +36,9 @@ def init(bot, data):
 
 
 async def deal_blackjack(players, playerTotals, playedCards, number):
+    # a function that deals a number of cards to a player, and adds them to the respective arrays
+    # they are added to arrays to avoid reusing old cards, which have already been played
+    # each player has a total 'value', this function returns numbers based on the cards to add to that value
     suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
     ranks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"]
 
@@ -68,6 +70,7 @@ async def deal_blackjack(players, playerTotals, playedCards, number):
 
 
 async def send_card(player, path, ctx=None):
+    # sends an image of a card to a player
     path = "images/cards/" + path
     with open(path, "rb") as picture:
         if ctx:
@@ -77,6 +80,7 @@ async def send_card(player, path, ctx=None):
 
 
 async def send_cards(cards, ctx):
+    # sends all of the cards of a player to the channel where the game begun
     files = []
     for card in cards:
         path = "images/cards/" + card
@@ -86,6 +90,7 @@ async def send_cards(cards, ctx):
 
 
 async def check_bust_blackjack(player, playerTotals):
+    # checks if the value of a player's card is over 21
     if playerTotals[player.id]["value"] > 21:
         playerTotals[player.id]["bust"] = True
         return True
@@ -93,6 +98,7 @@ async def check_bust_blackjack(player, playerTotals):
 
 
 async def begin_blackjack(ctx, players):
+    # includes the game loop for the blackjack game
     playerTotals = {}
     playedCards = []
     for player in players:

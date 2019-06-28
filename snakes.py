@@ -19,11 +19,15 @@ class Snake:
 
 
 async def send_players(players, content):
+    # a function to send text to players
     for player in players:
         await player.send(content)
 
 
 async def compare_snakes(ctx, snakes, players, category):
+    # the function comparing the snakes, and applying damage to them if necessary
+    # returns False if the game is not over
+    # if the game is over, returns True
     snake1 = snakes[0]
     snake2 = snakes[1]
     if category == "Speed":
@@ -94,6 +98,7 @@ async def compare_snakes(ctx, snakes, players, category):
 
 
 async def send_stats(ctx, snake, players):
+    # a function to send an image of a player's snake and its stats
     text = [snake.user.name + "'s Snake", "HP: " + str(snake.hp) + "\nSpeed: " + str(snake.speed) + "\nIntimidation: "
             + str(snake.intimidation) + "\nLength: " + str(snake.length) + "\nScales: " + str(snake.scales) +
             "\nDamage: " + str(snake.damage)]
@@ -106,6 +111,7 @@ async def send_stats(ctx, snake, players):
 
 
 async def get_points(ctx, player, pointsLeft, category):
+    # a function awaiting a response for the amount to spend on a category for the snake's stats
     await player.send("**" + category + "**\nPlease enter the number of points to spend on " + category +
                       " *(you have " + str(pointsLeft) + " points remaining)*")
     for i in range(3):
@@ -128,12 +134,14 @@ async def get_points(ctx, player, pointsLeft, category):
 
 
 async def ask_players(ctx, players, snakes=None):
+    # a function that gets the players to spend their points on their snake. returns array of snakes with values.
     newSnakes = []
-    # to message player 2
     for num, player in enumerate(players):
         if num == 0:
             await players[1].send(players[0].mention +
                                   " is selecting their stats, you will be able to once they are finished.")
+        else:
+            await players[0].send(players[1].mention + " is choosing, please wait.")
         pointsLeft = 5
         categories = ["Speed", "Intimidation", "Length", "Scales", "Damage"]
         if snakes:
