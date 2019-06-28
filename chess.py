@@ -299,7 +299,12 @@ def init(bot, data):
                             if first_x == second_x:
                                 invalid = False
                                 start = True
-                                for i in range(first_y, second_y):
+                                fy_temp = first_y
+                                sy_temp = second_y
+                                if first_y > second_y:
+                                    fy_temp = second_y
+                                    sy_temp = first_y
+                                for i in range(fy_temp, sy_temp):
                                     if start:
                                         start = False
                                         continue
@@ -317,7 +322,12 @@ def init(bot, data):
                             else:
                                 invalid = False
                                 start = True
-                                for i in range(first_x, second_x):
+                                fx_temp = first_x
+                                sx_temp = second_x
+                                if first_x > second_x:
+                                    fx_temp = second_x
+                                    sx_temp = first_x
+                                for i in range(fx_temp, sx_temp):
                                     if start:
                                         start = False
                                         continue
@@ -339,7 +349,12 @@ def init(bot, data):
                             if first_x == second_x:
                                 invalid = False
                                 start = True
-                                for i in range(first_y, second_y):
+                                fy_temp = first_y
+                                sy_temp = second_y
+                                if first_y > second_y:
+                                    fy_temp = second_y
+                                    sy_temp = first_y
+                                for i in range(fy_temp, sy_temp):
                                     if start:
                                         start = False
                                         continue
@@ -357,7 +372,12 @@ def init(bot, data):
                             else:
                                 invalid = False
                                 start = True
-                                for i in range(first_x, second_x):
+                                fx_temp = first_x
+                                sx_temp = second_x
+                                if first_x > second_x:
+                                    fx_temp = second_x
+                                    sx_temp = first_x
+                                for i in range(fx_temp, sx_temp):
                                     if start:
                                         start = False
                                         continue
@@ -390,7 +410,17 @@ def init(bot, data):
                                 continue
                             invalid = False
                             start = True
-                            for i, j in zip(range(first_x, second_x), range(first_y, second_y)):
+                            fx_temp = first_x
+                            sx_temp = second_x
+                            if first_x > second_x:
+                                fx_temp = second_x
+                                sx_temp = first_x
+                            fy_temp = first_y
+                            sy_temp = second_y
+                            if first_y > second_y:
+                                fy_temp = second_y
+                                sy_temp = first_y
+                            for i, j in zip(range(fx_temp, sx_temp), range(fy_temp, sy_temp)):
                                 if start:
                                     start = False
                                     continue
@@ -411,7 +441,17 @@ def init(bot, data):
                                 continue
                             invalid = False
                             start = True
-                            for i, j in zip(range(first_x, second_x), range(first_y, second_y)):
+                            fx_temp = first_x
+                            sx_temp = second_x
+                            if first_x > second_x:
+                                fx_temp = second_x
+                                sx_temp = first_x
+                            fy_temp = first_y
+                            sy_temp = second_y
+                            if first_y > second_y:
+                                fy_temp = second_y
+                                sy_temp = first_y
+                            for i, j in zip(range(fx_temp, sx_temp), range(fy_temp, sy_temp)):
                                 if start:
                                     start = False
                                     continue
@@ -432,7 +472,12 @@ def init(bot, data):
                                 if first_x == second_x:
                                     invalid = False
                                     start = True
-                                    for i in range(first_y, second_y):
+                                    fy_temp = first_y
+                                    sy_temp = second_y
+                                    if first_y > second_y:
+                                        fy_temp = second_y
+                                        sy_temp = first_y
+                                    for i in range(fy_temp, sy_temp):
                                         if start:
                                             start = False
                                             continue
@@ -450,7 +495,12 @@ def init(bot, data):
                                 else:
                                     invalid = False
                                     start = True
-                                    for i in range(first_x, second_x):
+                                    fx_temp = first_x
+                                    sx_temp = second_x
+                                    if first_x > second_x:
+                                        fx_temp = second_x
+                                        sx_temp = first_x
+                                    for i in range(fx_temp, sx_temp):
                                         if start:
                                             start = False
                                             continue
@@ -471,7 +521,17 @@ def init(bot, data):
                                     continue
                                 invalid = False
                                 start = True
-                                for i, j in zip(range(first_x, second_x), range(first_y, second_y)):
+                                fx_temp = first_x
+                                sx_temp = second_x
+                                if first_x > second_x:
+                                    fx_temp = second_x
+                                    sx_temp = first_x
+                                fy_temp = first_y
+                                sy_temp = second_y
+                                if first_y > second_y:
+                                    fy_temp = second_y
+                                    sy_temp = first_y
+                                for i, j in zip(range(fx_temp, sx_temp), range(fy_temp, sy_temp)):
                                     if start:
                                         start = False
                                         continue
@@ -491,7 +551,12 @@ def init(bot, data):
                                 if first_x == second_x:
                                     invalid = False
                                     start = True
-                                    for i in range(first_y, second_y):
+                                    fy_temp = first_y
+                                    sy_temp = second_y
+                                    if first_y > second_y:
+                                        fy_temp = second_y
+                                        sy_temp = first_y
+                                    for i in range(fy_temp, sy_temp):
                                         if start:
                                             start = False
                                             continue
@@ -509,7 +574,12 @@ def init(bot, data):
                                 else:
                                     invalid = False
                                     start = True
-                                    for i in range(first_x, second_x):
+                                    fx_temp = first_x
+                                    sx_temp = second_x
+                                    if first_x > second_x:
+                                        fx_temp = second_x
+                                        sx_temp = first_x
+                                    for i in range(fx_temp, sx_temp):
                                         if start:
                                             start = False
                                             continue
@@ -530,7 +600,17 @@ def init(bot, data):
                                     continue
                                 invalid = False
                                 start = True
-                                for i, j in zip(range(first_x, second_x), range(first_y, second_y)):
+                                fx_temp = first_x
+                                sx_temp = second_x
+                                if first_x > second_x:
+                                    fx_temp = second_x
+                                    sx_temp = first_x
+                                fy_temp = first_y
+                                sy_temp = second_y
+                                if first_y > second_y:
+                                    fy_temp = second_y
+                                    sy_temp = first_y
+                                for i, j in zip(range(fx_temp, sx_temp), range(fy_temp, sy_temp)):
                                     if start:
                                         start = False
                                         continue
