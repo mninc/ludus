@@ -34,10 +34,12 @@ async def check(ctx, choices, players):
         return False
     elif (choices[0] == "rock" and choices[1] == "scissors") or (choices[0] == "paper" and choices[1] == "rock")\
             or (choices[0] == "scissors" and choices[1] == "paper"):
-        await ctx.send(players[0].mention + " has won rock, paper, scissors with " + choices[0] + ".")
+        await ctx.send(players[0].mention + " has won rock, paper, scissors with " + choices[0] + ". " +
+                       players[1].mention + " chose " + choices[1] + ".")
         return True
     else:
-        await ctx.send(players[1].mention + " has won rock, paper, scissors with " + choices[1] + ".")
+        await ctx.send(players[1].mention + " has won rock, paper, scissors with " + choices[1] + ". " +
+                       players[0].mention + " chose " + choices[0] + ".")
         return True
 
 
