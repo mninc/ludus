@@ -1,2 +1,2 @@
 # Ludus
-[![banner](images/banner.png)](http://google.com.au/)
+[![banner](images/banner.png)](https://mninc.github.io/ludus/)
